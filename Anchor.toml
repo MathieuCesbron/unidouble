@@ -1,14 +1,14 @@
 [features]
 seeds = false
 skip-lint = false
-[programs.localnet]
-unidouble = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+unidouble = "C4TX181DDiFWoshCY3S8yMu6agRnz3cov2tQ87XsdimJ"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/mcesbron/.config/solana/id.json"
 
 [scripts]
