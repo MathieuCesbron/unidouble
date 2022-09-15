@@ -1,13 +1,30 @@
-const anchor = require("@project-serum/anchor");
+const anchor = require("@project-serum/anchor")
+const { DEVNET_WALLET, generateUser } = require("../utils.js")
+
 
 describe("unidouble", () => {
-  // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.AnchorProvider.env());
+  const provider = anchor.AnchorProvider.env()
+  anchor.setProvider(provider)
 
-  it("Is initialized!", async () => {
-    // Add your test here.
-    const program = anchor.workspace.Unidouble;
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
-  });
-});
+  const program = anchor.workspace.Unidouble
+
+  it("initialize store", async () => {
+    const creator = await generateUser(1, provider)
+    const [store] = await anchor.web3.PublicKey.findProgramAddress(
+      [creator.publicKey.toBuffer()],
+      program.programId
+    )
+
+    await program.methods
+      .initialize()
+      .accounts(
+        {
+          user: creator.publicKey,
+          store: store,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+      .signers([creator])
+      .rpc()
+  })
+})
+
