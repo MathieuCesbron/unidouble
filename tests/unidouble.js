@@ -11,7 +11,7 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account and post article", async () => {
+  it("initialize store, create seller account, post article, update article", async () => {
     const creator = await generateUser(1, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
@@ -98,6 +98,24 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txPostArticle)
+
+
+    const newQuantity = 12
+    const newTitle = "Vintage 1996 IBM Model M2 Keyboard Part No 1395300 Buckling Spring Untested"
+    const newDescription = "laurcot augue mauris augue. Id diam vel quam elementum. Orci porta non pulvinar neque laoreet suspendisse. Feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Interdum consectetur libero id faucibus nisl tincidunt eget. Integer vitae justo eget magna fermentum iaculis eu. Ultrices neque ornare aenean euismod elementum nisi quis. Et netus et malesuada fames ac turpis egestas integer.Sit amet dictum sit amet.Cursus mattis molestie a iaculis.Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque.Elementum nisi quis eleifend quam adipiscing.Sit amet. auctor augue mauris augue. Id diam vel quam elementum. Orci porta non pulvinar neque laoreqtaim"
+    const newImageURL = "https://book.anchor-lang.com/anchor_references/aps"
+
+    const txUpdateArticle = await program.methods
+      .updateArticle(newQuantity, newTitle, newDescription, newImageURL)
+      .accounts(
+        {
+          user: seller.publicKey,
+          article: article,
+        })
+      .signers([seller])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txUpdateArticle)
   })
 
 

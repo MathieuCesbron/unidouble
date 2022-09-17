@@ -89,6 +89,50 @@ pub mod unidouble {
         article.image_url = image_url;
         Ok(())
     }
+
+    pub fn update_article(
+        ctx: Context<UpdateArticle>,
+        quantity: u16,
+        title: String,
+        description: String,
+        image_url: String,
+    ) -> Result<()> {
+        require!(
+            ctx.accounts.user.key() == ctx.accounts.article.seller_account_public_key,
+            ErrorCode::InvalidSellerAccount
+        );
+
+        let article = &mut ctx.accounts.article;
+
+        if quantity != 0 {
+            article.quantity = quantity;
+        }
+
+        if title.chars().count() != 0 {
+            require!(
+                10 <= title.chars().count() && title.chars().count() <= 75,
+                ErrorCode::InvalidTitle
+            );
+            article.title = title;
+        }
+
+        if description.chars().count() != 0 {
+            require!(
+                50 <= description.chars().count() && description.chars().count() <= 750,
+                ErrorCode::InvalidDescription
+            );
+            article.description = description;
+        }
+
+        if image_url.chars().count() != 0 {
+            require!(
+                10 <= image_url.chars().count() && image_url.chars().count() <= 50,
+                ErrorCode::InvalidImageURL
+            );
+            article.image_url = image_url;
+        }
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -143,6 +187,13 @@ pub struct InitializeArticle<'info> {
 
 #[derive(Accounts)]
 pub struct PostArticle<'info> {
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub article: Account<'info, Article>,
+}
+
+#[derive(Accounts)]
+pub struct UpdateArticle<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
     pub article: Account<'info, Article>,
