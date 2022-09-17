@@ -23,6 +23,8 @@ pub mod unidouble {
             ErrorCode::InvalidDiffie
         );
         let seller_account = &mut ctx.accounts.seller_account;
+
+        seller_account.store_creator_public_key = ctx.accounts.store.creator.key();
         seller_account.diffie_public_key = diffie_public_key;
         seller_account.seller_public_key = ctx.accounts.user.key();
         Ok(())
@@ -35,6 +37,8 @@ pub mod unidouble {
         category: u8,
     ) -> Result<()> {
         require!(uuid.chars().count() == 6, ErrorCode::InvalidUUID);
+        require!(country < 32, ErrorCode::InvalidCountry);
+        require!(category < 16, ErrorCode::InvalidCategory);
         require!(
             ctx.accounts.user.key() == ctx.accounts.seller_account.seller_public_key,
             ErrorCode::InvalidSellerAccount
@@ -42,13 +46,14 @@ pub mod unidouble {
 
         let store = &mut ctx.accounts.store;
         let total_articles: u8 = store.info[country as usize][category as usize];
-        require!(total_articles < 255, ErrorCode::InvalidCategory);
+        require!(total_articles < 255, ErrorCode::InvalidCategoryFull);
 
         store.info[country as usize][category as usize] += 1;
 
         let article = &mut ctx.accounts.article;
 
         article.seller_account_public_key = ctx.accounts.user.key();
+        article.store_creator_public_key = ctx.accounts.store.creator.key();
         article.uuid = uuid;
         article.country = country;
         article.category = category;
@@ -133,6 +138,24 @@ pub mod unidouble {
         }
         Ok(())
     }
+
+    pub fn remove_article(ctx: Context<RemoveArticle>) -> Result<()> {
+        require!(
+            ctx.accounts.user.key() == ctx.accounts.article.seller_account_public_key,
+            ErrorCode::InvalidSellerAccount
+        );
+        require!(
+            ctx.accounts.store.creator == ctx.accounts.article.store_creator_public_key,
+            ErrorCode::InvalidStoreCreator
+        );
+
+        let store = &mut ctx.accounts.store;
+        let country = ctx.accounts.article.country;
+        let category = ctx.accounts.article.category;
+        msg!("{:?}", store.info);
+        store.info[country as usize][category as usize] -= 1;
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -164,6 +187,7 @@ pub struct CreateSellerAccount<'info> {
         bump,
     )]
     pub seller_account: Account<'info, SellerAccount>,
+    pub store: Account<'info, Store>,
     pub system_program: Program<'info, System>,
 }
 
@@ -181,6 +205,7 @@ pub struct InitializeArticle<'info> {
     )]
     pub article: Account<'info, Article>,
     pub seller_account: Account<'info, SellerAccount>,
+    #[account(mut)]
     pub store: Account<'info, Store>,
     pub system_program: Program<'info, System>,
 }
@@ -189,6 +214,7 @@ pub struct InitializeArticle<'info> {
 pub struct PostArticle<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
+    #[account(mut)]
     pub article: Account<'info, Article>,
 }
 
@@ -196,7 +222,18 @@ pub struct PostArticle<'info> {
 pub struct UpdateArticle<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
+    #[account(mut)]
     pub article: Account<'info, Article>,
+}
+
+#[derive(Accounts)]
+pub struct RemoveArticle<'info> {
+    #[account(mut)]
+    user: Signer<'info>,
+    #[account(mut, close = user)]
+    article: Account<'info, Article>,
+    #[account(mut)]
+    pub store: Account<'info, Store>,
 }
 
 #[account]

@@ -23,6 +23,12 @@ pub enum ErrorCode {
     #[msg("The uuid should be exactly 6 chars")]
     InvalidUUID,
 
+    #[msg("The country should be between 0 and 31")]
+    InvalidCountry,
+
+    #[msg("The category should be between 0 and 15")]
+    InvalidCategory,
+
     #[msg("The title should be between 10 and 75 chars")]
     InvalidTitle,
 
@@ -33,8 +39,11 @@ pub enum ErrorCode {
     InvalidImageURL,
 
     #[msg("The category is already full")]
-    InvalidCategory,
+    InvalidCategoryFull,
 
     #[msg("The public key of the seller account should be the same as the transaction signer")]
     InvalidSellerAccount,
+
+    #[msg("The store creator of the store should be the same as the store creator of the article")]
+    InvalidStoreCreator,
 }

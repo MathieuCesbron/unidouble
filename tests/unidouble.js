@@ -11,8 +11,8 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account, post article, update article", async () => {
-    const creator = await generateUser(1, provider)
+  it("initialize store, create seller account, post article, update article, remove article", async () => {
+    const creator = await generateUser(2, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
       program.programId
@@ -29,10 +29,10 @@ describe("unidouble", () => {
       .signers([creator])
       .rpc()
 
-    await provider.connection.confirmTransaction(txInitializeStore)
+    await provider.connection.confirmTransaction(txInitializeStore, "confirmed")
 
     await new Promise(r => setTimeout(r, 10000))
-    const seller = await generateUser(1, provider)
+    const seller = await generateUser(2, provider)
     // seller must remember the private key
     const sellerDiffieKeyPair = curve.genKeyPair()
     const sellerDiffiePublicKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
@@ -48,12 +48,13 @@ describe("unidouble", () => {
         {
           user: seller.publicKey,
           sellerAccount: sellerAccount,
+          store: store,
           systemProgram: anchor.web3.SystemProgram.programId
         })
       .signers([seller])
       .rpc()
 
-    await provider.connection.confirmTransaction(txCreateSellerAccount)
+    await provider.connection.confirmTransaction(txCreateSellerAccount, "confirmed")
 
     const uuid = Math.random().toString(36).slice(-6)
     const country = 0
@@ -76,7 +77,7 @@ describe("unidouble", () => {
       .signers([seller])
       .rpc()
 
-    await provider.connection.confirmTransaction(txInitializeArticle)
+    await provider.connection.confirmTransaction(txInitializeArticle, "confirmed")
 
     const price = new anchor.BN(0.1 * anchor.web3.LAMPORTS_PER_SOL)
     const quantity = 10
@@ -97,8 +98,7 @@ describe("unidouble", () => {
       .signers([seller])
       .rpc()
 
-    await provider.connection.confirmTransaction(txPostArticle)
-
+    await provider.connection.confirmTransaction(txPostArticle, "confirmed")
 
     const newQuantity = 12
     const newTitle = "Vintage 1996 IBM Model M2 Keyboard Part No 1395300 Buckling Spring Untested"
@@ -115,8 +115,19 @@ describe("unidouble", () => {
       .signers([seller])
       .rpc()
 
-    await provider.connection.confirmTransaction(txUpdateArticle)
+    await provider.connection.confirmTransaction(txUpdateArticle, "confirmed")
+
+    const txRemoveArticle = await program.methods
+      .removeArticle()
+      .accounts(
+        {
+          user: seller.publicKey,
+          article: article,
+          store: store
+        })
+      .signers([seller])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txRemoveArticle, "confirmed")
   })
-
-
 })
