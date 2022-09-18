@@ -268,6 +268,28 @@ pub mod unidouble {
 
         Ok(())
     }
+
+    pub fn review_article(ctx: Context<ReviewArticle>, rating: u8) -> Result<()> {
+        require!(rating <= 5, ErrorCode::InvalidRating);
+        let position = ctx
+            .accounts
+            .article
+            .reviewers
+            .iter()
+            .position(|&public_key| public_key == *ctx.accounts.user.key);
+        require!(position != None, ErrorCode::InvalidReviewer);
+
+        let index = position.unwrap();
+        let article = &mut ctx.accounts.article;
+
+        article.reviewers.remove(index);
+        article.delivery_address_ciphertexts.remove(index);
+        article.buyer_diffie_public_keys.remove(index);
+        article.buyer_salts.remove(index);
+        article.buyer_ivs.remove(index);
+
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -370,6 +392,13 @@ pub struct BuyArticle<'info> {
     pub article: Account<'info, Article>,
     /// CHECK: safe
     pub system_program: AccountInfo<'info>,
+}
+
+#[derive(Accounts)]
+pub struct ReviewArticle<'info> {
+    pub user: Signer<'info>,
+    #[account(mut)]
+    pub article: Account<'info, Article>,
 }
 
 #[account]

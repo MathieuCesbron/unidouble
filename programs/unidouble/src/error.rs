@@ -55,4 +55,10 @@ pub enum ErrorCode {
 
     #[msg("The article has already the max amount of 27 buyers that needs to review")]
     TooMuchReviewers,
+
+    #[msg("The rating should be between 0 and 5")]
+    InvalidRating,
+
+    #[msg("The user is not allowed to review")]
+    InvalidReviewer,
 }

@@ -12,7 +12,7 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account, update seller account, post article, update article, buy article, remove article", async () => {
+  it("initialize store, create seller account, update seller account, post article, update article, buy article, review article, remove article", async () => {
     const creator = await generateUser(2, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
@@ -165,6 +165,20 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txBuyArticle, "confirmed")
+
+    const rating = 4
+
+    const txReviewArticle = await program.methods
+      .reviewArticle(rating)
+      .accounts(
+        {
+          user: buyer.publicKey,
+          article: article,
+        })
+      .signers([buyer])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txReviewArticle, "confirmed")
 
     const txRemoveArticle = await program.methods
       .removeArticle()
