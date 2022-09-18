@@ -12,7 +12,7 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account, post article, update article, buy article, remove article", async () => {
+  it("initialize store, create seller account, update seller account, post article, update article, buy article, remove article", async () => {
     const creator = await generateUser(2, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
@@ -56,6 +56,21 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txCreateSellerAccount, "confirmed")
+
+    const sellerDiffieKeyPairUpdate = curve.genKeyPair()
+    const sellerDiffiePublicKeyUpdate = sellerDiffieKeyPairUpdate.getPublic().encode("hex", true)
+
+    const txUpdateDiffieSellerAccount = await program.methods
+      .updateDiffieSellerAccount(sellerDiffiePublicKeyUpdate)
+      .accounts(
+        {
+          user: seller.publicKey,
+          sellerAccount: sellerAccount
+        })
+      .signers([seller])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txUpdateDiffieSellerAccount, "confirmed")
 
     const uuid = Math.random().toString(36).slice(-6)
     const country = 0

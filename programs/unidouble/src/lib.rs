@@ -32,6 +32,23 @@ pub mod unidouble {
         Ok(())
     }
 
+    pub fn update_diffie_seller_account(
+        ctx: Context<UpdateDiffieSellerAccount>,
+        diffie_public_key: String,
+    ) -> Result<()> {
+        require!(
+            *ctx.accounts.user.key == ctx.accounts.seller_account.seller_public_key,
+            ErrorCode::InvalidSellerAccount
+        );
+        require!(
+            diffie_public_key.chars().count() == 64,
+            ErrorCode::InvalidDiffie
+        );
+        let seller_account = &mut ctx.accounts.seller_account;
+        seller_account.diffie_public_key = diffie_public_key;
+        Ok(())
+    }
+
     pub fn initialize_article(
         ctx: Context<InitializeArticle>,
         uuid: String,
@@ -284,6 +301,13 @@ pub struct CreateSellerAccount<'info> {
     pub seller_account: Account<'info, SellerAccount>,
     pub store: Account<'info, Store>,
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct UpdateDiffieSellerAccount<'info> {
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub seller_account: Account<'info, SellerAccount>,
 }
 
 #[derive(Accounts)]
