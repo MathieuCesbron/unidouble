@@ -12,7 +12,8 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account, update seller account, post article, update article, buy article, review article, remove article", async () => {
+  it("works as a store", async () => {
+    console.log("initialize store")
     const creator = await generateUser(2, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
@@ -32,6 +33,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txInitializeStore, "confirmed")
 
+    console.log("create seller account")
     await new Promise(r => setTimeout(r, 10000))
     const seller = await generateUser(2, provider)
     // seller must remember the private key
@@ -57,6 +59,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txCreateSellerAccount, "confirmed")
 
+    console.log("update diffie seller account")
     const sellerDiffieKeyPairUpdate = curve.genKeyPair()
     const sellerDiffiePublicKeyUpdate = sellerDiffieKeyPairUpdate.getPublic().encode("hex", true)
 
@@ -72,6 +75,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txUpdateDiffieSellerAccount, "confirmed")
 
+    console.log("initialize article")
     const uuid = Math.random().toString(36).slice(-6)
     const country = 0
     const category = 0
@@ -95,6 +99,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txInitializeArticle, "confirmed")
 
+    console.log("post article")
     const price = new anchor.BN(0.1 * anchor.web3.LAMPORTS_PER_SOL)
     const quantity = 10
     // title of max length 75
@@ -116,6 +121,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txPostArticle, "confirmed")
 
+    console.log("update article")
     const newQuantity = 12
     const newTitle = "Vintage 1996 IBM Model M2 Keyboard Part No 1395300 Buckling Spring Untested"
     const newDescription = "laurcot augue mauris augue. Id diam vel quam elementum. Orci porta non pulvinar neque laoreet suspendisse. Feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Interdum consectetur libero id faucibus nisl tincidunt eget. Integer vitae justo eget magna fermentum iaculis eu. Ultrices neque ornare aenean euismod elementum nisi quis. Et netus et malesuada fames ac turpis egestas integer.Sit amet dictum sit amet.Cursus mattis molestie a iaculis.Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque.Elementum nisi quis eleifend quam adipiscing.Sit amet. auctor augue mauris augue. Id diam vel quam elementum. Orci porta non pulvinar neque laoreqtaim"
@@ -133,6 +139,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txUpdateArticle, "confirmed")
 
+    console.log("buy article")
     await new Promise(r => setTimeout(r, 10000))
     const buyer = await generateUser(2, provider)
 
@@ -166,6 +173,7 @@ describe("unidouble", () => {
 
     await provider.connection.confirmTransaction(txBuyArticle, "confirmed")
 
+    console.log("review article")
     const rating = 4
 
     const txReviewArticle = await program.methods
@@ -179,6 +187,8 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txReviewArticle, "confirmed")
+
+    console.log("remove article")
 
     const txRemoveArticle = await program.methods
       .removeArticle()
