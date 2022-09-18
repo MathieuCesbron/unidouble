@@ -46,4 +46,13 @@ pub enum ErrorCode {
 
     #[msg("The store creator of the store should be the same as the store creator of the article")]
     InvalidStoreCreator,
+
+    #[msg("The quantity should be equal or less to the stock of the article")]
+    InvalidQuantity,
+
+    #[msg("The delivery address cipher text should be between 32 and 160 chars, the delivery address should be between 10 and 75 chars")]
+    InvalidDeliveryAddress,
+
+    #[msg("The article has already the max amount of 27 buyers that needs to review")]
+    TooMuchReviewers,
 }

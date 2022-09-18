@@ -1,9 +1,10 @@
 const anchor = require("@project-serum/anchor")
-const elliptic = require('elliptic');
+const elliptic = require('elliptic')
+const cryptoJS = require('crypto-js')
 
-const { DEVNET_WALLET, generateUser, seller } = require("../utils.js")
+const { generateUser } = require("../utils.js")
 
-const curve = new elliptic.ec('curve25519');
+const curve = new elliptic.ec('curve25519')
 
 describe("unidouble", () => {
   const provider = anchor.AnchorProvider.env()
@@ -11,7 +12,7 @@ describe("unidouble", () => {
 
   const program = anchor.workspace.Unidouble
 
-  it("initialize store, create seller account, post article, update article, remove article", async () => {
+  it("initialize store, create seller account, post article, update article, buy article, remove article", async () => {
     const creator = await generateUser(2, provider)
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
@@ -116,6 +117,39 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txUpdateArticle, "confirmed")
+
+    await new Promise(r => setTimeout(r, 10000))
+    const buyer = await generateUser(2, provider)
+
+    const buyerDiffieKeyPair = curve.genKeyPair()
+    const sellerDiffieBasepoint = curve.keyFromPublic(Buffer.from(sellerDiffiePublicKey, 'hex')).getPublic()
+    const sharedSecretBuyerSide = buyerDiffieKeyPair.derive(sellerDiffieBasepoint).toString("hex")
+    const cipher = cryptoJS.AES.encrypt(
+      "(308) 367-4732-609 Howard Ave Curtis, Nebraska(NE), 69025",
+      sharedSecretBuyerSide,
+      { mode: cryptoJS.mode.CTR }
+    )
+    const cipherText = cipher.ciphertext.toString()
+    const buyerDiffiePublicKey = buyerDiffieKeyPair.getPublic().encode("hex", true)
+    const salt = cipher.salt.toString()
+    const iv = cipher.iv.toString()
+
+    const quantityToBuy = 2
+
+    const txBuyArticle = await program.methods
+      .buyArticle(quantityToBuy, cipherText, buyerDiffiePublicKey, salt, iv)
+      .accounts(
+        {
+          user: buyer.publicKey,
+          seller: seller.publicKey,
+          article: article,
+          storeCreator: creator.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+      .signers([buyer])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txBuyArticle, "confirmed")
 
     const txRemoveArticle = await program.methods
       .removeArticle()

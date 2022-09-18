@@ -1,5 +1,7 @@
 use crate::error::ErrorCode;
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::program::invoke;
+
 pub mod error;
 
 declare_id!("C4TX181DDiFWoshCY3S8yMu6agRnz3cov2tQ87XsdimJ");
@@ -156,6 +158,99 @@ pub mod unidouble {
         store.info[country as usize][category as usize] -= 1;
         Ok(())
     }
+
+    pub fn buy_article(
+        ctx: Context<BuyArticle>,
+        quantity: u16,
+        delivery_address_ciphertext: String,
+        diffie_public_key: String,
+        salt: String,
+        iv: String,
+    ) -> Result<()> {
+        let article = &mut ctx.accounts.article;
+
+        require!(quantity <= article.quantity, ErrorCode::InvalidQuantity);
+        require!(article.reviewers.len() < 27, ErrorCode::TooMuchReviewers);
+        require!(
+            32 <= delivery_address_ciphertext.chars().count()
+                && delivery_address_ciphertext.chars().count() <= 160,
+            ErrorCode::InvalidDeliveryAddress
+        );
+        require!(
+            diffie_public_key.chars().count() == 64,
+            ErrorCode::InvalidDiffie
+        );
+        require!(salt.chars().count() == 16, ErrorCode::InvalidSalt);
+        require!(iv.chars().count() == 32, ErrorCode::InvalidIv);
+        require!(
+            *ctx.accounts.store_creator.key == article.store_creator_public_key,
+            ErrorCode::InvalidStoreCreator
+        );
+
+        let total_lamports = article.price * quantity as u64;
+
+        let lamports_to_seller = 0.94 * total_lamports as f64;
+        let lamports_to_store_creator = 0.05 * total_lamports as f64;
+        let lamports_to_article = 0.01 * total_lamports as f64;
+
+        let transfer_to_seller = anchor_lang::solana_program::system_instruction::transfer(
+            ctx.accounts.user.key,
+            &article.seller_account_public_key,
+            lamports_to_seller as u64,
+        );
+
+        invoke(
+            &transfer_to_seller,
+            &[
+                ctx.accounts.user.to_account_info(),
+                ctx.accounts.seller.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
+        )?;
+
+        let transfer_to_store_creator = anchor_lang::solana_program::system_instruction::transfer(
+            ctx.accounts.user.key,
+            &article.store_creator_public_key,
+            lamports_to_store_creator as u64,
+        );
+
+        invoke(
+            &transfer_to_store_creator,
+            &[
+                ctx.accounts.user.to_account_info(),
+                ctx.accounts.store_creator.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
+        )?;
+
+        let transfer_to_article = anchor_lang::solana_program::system_instruction::transfer(
+            ctx.accounts.user.key,
+            &article.key(),
+            lamports_to_article as u64,
+        );
+
+        invoke(
+            &transfer_to_article,
+            &[
+                ctx.accounts.user.to_account_info(),
+                article.to_account_info(),
+                ctx.accounts.system_program.to_account_info(),
+            ],
+        )?;
+
+        article.buyer_count += 1;
+        article.quantity -= quantity;
+
+        article.reviewers.push(*ctx.accounts.user.key);
+        article
+            .delivery_address_ciphertexts
+            .push(delivery_address_ciphertext);
+        article.buyer_diffie_public_keys.push(diffie_public_key);
+        article.buyer_salts.push(salt);
+        article.buyer_ivs.push(iv);
+
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -199,7 +294,7 @@ pub struct InitializeArticle<'info> {
     #[account(
         init,
         payer=user,
-        space=10240,
+        space=9946,
         seeds = [uuid.as_ref()],
         bump,
     )]
@@ -236,6 +331,23 @@ pub struct RemoveArticle<'info> {
     pub store: Account<'info, Store>,
 }
 
+#[derive(Accounts)]
+pub struct BuyArticle<'info> {
+    #[account(mut)]
+    /// CHECK: safe
+    user: Signer<'info>,
+    #[account(mut)]
+    /// CHECK: safe
+    pub seller: AccountInfo<'info>,
+    #[account(mut)]
+    /// CHECK: safe
+    pub store_creator: AccountInfo<'info>,
+    #[account(mut)]
+    pub article: Account<'info, Article>,
+    /// CHECK: safe
+    pub system_program: AccountInfo<'info>,
+}
+
 #[account]
 pub struct Store {
     // 32 countries with 16 categories each
@@ -249,7 +361,7 @@ pub struct Store {
 pub struct SellerAccount {
     seller_public_key: Pubkey,        // +32
     store_creator_public_key: Pubkey, // +32
-    diffie_public_key: String,        // +68
+    diffie_public_key: String,        // +4+64=68
 }
 
 #[account]
@@ -272,10 +384,15 @@ pub struct Article {
     pub rating_count: u16, // +2
     pub rating: f32,       // +4
 
-    pub deliveries: Vec<String>, // +10*150=1500
-    pub reviewers: Vec<Pubkey>,  // +10*32=320
+    // PDA have a mix size of 10240 bytes
+    // 2106 bytes needed to store article info, so 10240 - 1306 = 8934 bytes to store article buyers
+    // we need 164+32+68+20+36=320 bytes to store one buyer
+    // we can store 27 buyers (8934 / 320 = 27.91875)
+    // 8934 % 320 = 294 so article account size is 10240-294=9946
+    pub delivery_address_ciphertexts: Vec<String>, // +27*(160+4)=4428
+    pub reviewers: Vec<Pubkey>,                    // +27*32=864
 
-    pub buyer_diffie_keys: Vec<String>, // 4+10*64=644
-    pub buyer_salts: Vec<String>,       // 4+10*16=164
-    pub buyer_ivs: Vec<String>,         // 4+10*32=324
+    pub buyer_diffie_public_keys: Vec<String>, // 27*(64+4)=1836
+    pub buyer_salts: Vec<String>,              // 27*(16+4)=540
+    pub buyer_ivs: Vec<String>,                // 27*(32+4)=972
 }
