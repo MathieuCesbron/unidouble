@@ -88,6 +88,10 @@ pub mod unidouble {
         image_url: String,
     ) -> Result<()> {
         require!(
+            price > 100000 && price < 100000000000000,
+            ErrorCode::InvalidPrice
+        );
+        require!(
             10 <= title.chars().count() && title.chars().count() <= 75,
             ErrorCode::InvalidTitle
         );

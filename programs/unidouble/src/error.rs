@@ -29,6 +29,9 @@ pub enum ErrorCode {
     #[msg("The category should be between 0 and 15")]
     InvalidCategory,
 
+    #[msg("The price should be between 100 000 and 100 000 000 000 000 lamports")]
+    InvalidPrice,
+
     #[msg("The title should be between 10 and 75 chars")]
     InvalidTitle,
 
