@@ -182,6 +182,7 @@ describe("unidouble", () => {
         {
           user: buyer.publicKey,
           article: article,
+          systemProgram: anchor.web3.SystemProgram.programId
         })
       .signers([buyer])
       .rpc()

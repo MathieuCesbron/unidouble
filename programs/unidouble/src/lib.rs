@@ -257,6 +257,7 @@ pub mod unidouble {
 
         article.buyer_count += 1;
         article.quantity -= quantity;
+        article.quantity_bought.push(quantity);
 
         article.reviewers.push(*ctx.accounts.user.key);
         article
@@ -281,6 +282,16 @@ pub mod unidouble {
 
         let index = position.unwrap();
         let article = &mut ctx.accounts.article;
+
+        let total_lamports = article.price * article.quantity_bought[index] as u64;
+        let lamports_to_reviewer = 0.01 * total_lamports as f64;
+
+        **article.to_account_info().try_borrow_mut_lamports()? -= lamports_to_reviewer as u64;
+        **ctx
+            .accounts
+            .user
+            .to_account_info()
+            .try_borrow_mut_lamports()? += lamports_to_reviewer as u64;
 
         article.reviewers.remove(index);
         article.delivery_address_ciphertexts.remove(index);
@@ -340,7 +351,7 @@ pub struct InitializeArticle<'info> {
     #[account(
         init,
         payer=user,
-        space=9946,
+        space=10000,
         seeds = [uuid.as_ref()],
         bump,
     )]
@@ -396,9 +407,12 @@ pub struct BuyArticle<'info> {
 
 #[derive(Accounts)]
 pub struct ReviewArticle<'info> {
+    #[account(mut)]
     pub user: Signer<'info>,
     #[account(mut)]
     pub article: Account<'info, Article>,
+    /// CHECK: safe
+    pub system_program: AccountInfo<'info>,
 }
 
 #[account]
@@ -439,11 +453,12 @@ pub struct Article {
 
     // PDA have a mix size of 10240 bytes
     // 2106 bytes needed to store article info, so 10240 - 1306 = 8934 bytes to store article buyers
-    // we need 164+32+68+20+36=320 bytes to store one buyer
-    // we can store 27 buyers (8934 / 320 = 27.91875)
-    // 8934 % 320 = 294 so article account size is 10240-294=9946
+    // we need 164+32+2+68+20+36=322 bytes to store one buyer
+    // we can store 27 buyers (8934 / 322 = 27.745341614907)
+    // 8934 % 322 = 240 so article account size is 10240-240=10000
     pub delivery_address_ciphertexts: Vec<String>, // +27*(160+4)=4428
     pub reviewers: Vec<Pubkey>,                    // +27*32=864
+    pub quantity_bought: Vec<u16>,                 // +27*2=54
 
     pub buyer_diffie_public_keys: Vec<String>, // 27*(64+4)=1836
     pub buyer_salts: Vec<String>,              // 27*(16+4)=540
