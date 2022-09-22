@@ -1,0 +1,546 @@
+{
+    "version": "0.1.0",
+    "name": "unidouble",
+    "instructions": [
+        {
+            "name": "initializeStore",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "store",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "createSellerAccount",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "sellerAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "store",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "diffiePublicKey",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updateDiffieSellerAccount",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "sellerAccount",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "diffiePublicKey",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "initializeArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "sellerAccount",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "store",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "uuid",
+                    "type": "string"
+                },
+                {
+                    "name": "country",
+                    "type": "u8"
+                },
+                {
+                    "name": "category",
+                    "type": "u8"
+                }
+            ]
+        },
+        {
+            "name": "postArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "price",
+                    "type": "u64"
+                },
+                {
+                    "name": "quantity",
+                    "type": "u16"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "imageUrl",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "updateArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "quantity",
+                    "type": "u16"
+                },
+                {
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "name": "imageUrl",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "removeArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "store",
+                    "isMut": true,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "buyArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "seller",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "storeCreator",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "quantity",
+                    "type": "u16"
+                },
+                {
+                    "name": "deliveryAddressCiphertext",
+                    "type": "string"
+                },
+                {
+                    "name": "diffiePublicKey",
+                    "type": "string"
+                },
+                {
+                    "name": "salt",
+                    "type": "string"
+                },
+                {
+                    "name": "iv",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "reviewArticle",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "article",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "rating",
+                    "type": "u8"
+                }
+            ]
+        }
+    ],
+    "accounts": [
+        {
+            "name": "Store",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "info",
+                        "type": {
+                            "array": [
+                                {
+                                    "array": [
+                                        "u8",
+                                        32
+                                    ]
+                                },
+                                16
+                            ]
+                        }
+                    },
+                    {
+                        "name": "creator",
+                        "type": "publicKey"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "SellerAccount",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "sellerPublicKey",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "storeCreatorPublicKey",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "diffiePublicKey",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Article",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "sellerAccountPublicKey",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "storeCreatorPublicKey",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "country",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "category",
+                        "type": "u8"
+                    },
+                    {
+                        "name": "price",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "quantity",
+                        "type": "u16"
+                    },
+                    {
+                        "name": "title",
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "type": "string"
+                    },
+                    {
+                        "name": "imageUrl",
+                        "type": "string"
+                    },
+                    {
+                        "name": "buyerCount",
+                        "type": "u16"
+                    },
+                    {
+                        "name": "ratingCount",
+                        "type": "u16"
+                    },
+                    {
+                        "name": "rating",
+                        "type": "f32"
+                    },
+                    {
+                        "name": "deliveryAddressCiphertexts",
+                        "type": {
+                            "vec": "string"
+                        }
+                    },
+                    {
+                        "name": "reviewers",
+                        "type": {
+                            "vec": "publicKey"
+                        }
+                    },
+                    {
+                        "name": "quantityBought",
+                        "type": {
+                            "vec": "u16"
+                        }
+                    },
+                    {
+                        "name": "buyerDiffiePublicKeys",
+                        "type": {
+                            "vec": "string"
+                        }
+                    },
+                    {
+                        "name": "buyerSalts",
+                        "type": {
+                            "vec": "string"
+                        }
+                    },
+                    {
+                        "name": "buyerIvs",
+                        "type": {
+                            "vec": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "errors": [
+        {
+            "code": 6000,
+            "name": "InvalidInstruction",
+            "msg": "Invalid instruction"
+        },
+        {
+            "code": 6001,
+            "name": "InvalidBody",
+            "msg": "The body of your email is too long. The max is 512 chars"
+        },
+        {
+            "code": 6002,
+            "name": "InvalidSubject",
+            "msg": "The subject of your email is too long. The max is 40 chars"
+        },
+        {
+            "code": 6003,
+            "name": "InvalidSalt",
+            "msg": "The salt should be exactly 16 chars"
+        },
+        {
+            "code": 6004,
+            "name": "InvalidIv",
+            "msg": "The IV should be exactly 32 chars"
+        },
+        {
+            "code": 6005,
+            "name": "InvalidDiffie",
+            "msg": "The diffie publickey should be exactly 64 chars"
+        },
+        {
+            "code": 6006,
+            "name": "InvalidUUID",
+            "msg": "The uuid should be exactly 6 chars"
+        },
+        {
+            "code": 6007,
+            "name": "InvalidCountry",
+            "msg": "The country should be between 0 and 31"
+        },
+        {
+            "code": 6008,
+            "name": "InvalidCategory",
+            "msg": "The category should be between 0 and 15"
+        },
+        {
+            "code": 6009,
+            "name": "InvalidPrice",
+            "msg": "The price should be between 100 000 and 100 000 000 000 000 lamports"
+        },
+        {
+            "code": 6010,
+            "name": "InvalidTitle",
+            "msg": "The title should be between 10 and 75 chars"
+        },
+        {
+            "code": 6011,
+            "name": "InvalidDescription",
+            "msg": "The description should be between 50 and 750 chars"
+        },
+        {
+            "code": 6012,
+            "name": "InvalidImageURL",
+            "msg": "The image URL should be between 10 and 50 chars"
+        },
+        {
+            "code": 6013,
+            "name": "InvalidCategoryFull",
+            "msg": "The category is already full"
+        },
+        {
+            "code": 6014,
+            "name": "InvalidSellerAccount",
+            "msg": "The public key of the seller account should be the same as the transaction signer"
+        },
+        {
+            "code": 6015,
+            "name": "InvalidStoreCreator",
+            "msg": "The store creator of the store should be the same as the store creator of the article"
+        },
+        {
+            "code": 6016,
+            "name": "InvalidQuantity",
+            "msg": "The quantity should be equal or less to the stock of the article"
+        },
+        {
+            "code": 6017,
+            "name": "InvalidDeliveryAddress",
+            "msg": "The delivery address cipher text should be between 32 and 160 chars, the delivery address should be between 10 and 75 chars"
+        },
+        {
+            "code": 6018,
+            "name": "TooMuchReviewers",
+            "msg": "The article has already the max amount of 27 buyers that needs to review"
+        },
+        {
+            "code": 6019,
+            "name": "InvalidRating",
+            "msg": "The rating should be between 0 and 5"
+        },
+        {
+            "code": 6020,
+            "name": "InvalidReviewer",
+            "msg": "The user is not allowed to review"
+        }
+    ],
+    "metadata": {
+        "address": "C4TX181DDiFWoshCY3S8yMu6agRnz3cov2tQ87XsdimJ"
+    }
+}
