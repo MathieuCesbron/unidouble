@@ -13,6 +13,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "react-select": "^5.4.0",
     "zustand": "^4.1.1"
   },
   "scripts": {

@@ -1,0 +1,29 @@
+.navbar {
+    background-color: #ecebeb;
+    border: #dbd6e8 solid;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px
+}
+
+.unidouble-logo {
+    height: 25px;
+}
+
+.select {
+    width: 170px;
+    margin-left: 20px;
+}
+
+.select-country {
+    /* PLACEHOLDER */
+}
+
+.select-category {
+    margin-right: auto;
+}
+
+.connect-btn {
+    /* PLACEHOLDER */
+}
