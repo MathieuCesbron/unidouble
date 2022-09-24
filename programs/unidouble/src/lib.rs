@@ -421,10 +421,10 @@ pub struct ReviewArticle<'info> {
 
 #[account]
 pub struct Store {
-    // 32 countries with 16 categories each
+    // 16 countries with 32 categories each
     // 255 articles per categories
-    // total number of articles: 32 * 16 * 255 = 130560
-    pub info: [[u8; 32]; 16], // +1*32*16=512
+    // total number of articles: 16 * 32 * 255 = 130560
+    pub info: [[u8; 16]; 32], // +1*16*32=512
     pub creator: Pubkey,      // +32
 }
 
