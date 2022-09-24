@@ -1,51 +1,18 @@
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import {
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  TorusWalletAdapter,
-  LedgerWalletAdapter,
-  SolletWalletAdapter,
-  GlowWalletAdapter,
-  SlopeWalletAdapter,
-} from '@solana/wallet-adapter-wallets'
-import { clusterApiUrl } from '@solana/web3.js'
-import React, { useMemo } from 'react'
+import React from "react"
+import { Route, Routes } from "react-router-dom"
 
-require('@solana/wallet-adapter-react-ui/styles.css')
+import Navbar from "./components/Navbar"
+import Home from "./pages/Home"
+import Search from "./pages/Search"
 
 export default function App() {
   return (
-    <Context>
-      <div className="App">
-        <WalletMultiButton />
-      </div>
-    </Context>
-  )
-}
-
-const Context = ({ children }) => {
-  const network = WalletAdapterNetwork.Devnet
-  const endpoint = useMemo(() => clusterApiUrl(network), [network])
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new TorusWalletAdapter(),
-      new LedgerWalletAdapter(),
-      new SolletWalletAdapter(),
-      new GlowWalletAdapter(),
-      new SlopeWalletAdapter(),
-    ],
-    []
-  )
-
-  return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
+      </Routes>
+    </>
   )
 }
