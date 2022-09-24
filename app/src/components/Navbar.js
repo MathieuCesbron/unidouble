@@ -5,16 +5,9 @@ import "./Navbar.css"
 import useStore from "../store"
 import UnidoubleLogo from "../images/unidouble-logo.png"
 import Connect from "./Connect"
+import { countries } from "../config/countries"
+import { categories } from "../config/categories"
 
-const countries = [
-    { value: 0, label: "United States" },
-    { value: 1, label: "France" },
-]
-
-const categories = [
-    { value: 0, label: "Homemade" },
-    { value: 1, label: "Electronics" }
-]
 
 export default function Navbar() {
     const country = useStore(state => state.country)
