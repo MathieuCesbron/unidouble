@@ -1,5 +1,6 @@
 import React from "react"
 import Select from 'react-select'
+import { useNavigate } from 'react-router-dom';
 
 import "./Navbar.css"
 import useStore from "../store"
@@ -10,11 +11,21 @@ import { categories } from "../config/categories"
 
 
 export default function Navbar() {
+    const navigate = useNavigate()
+
     const country = useStore(state => state.country)
     const setCountry = useStore(state => state.setCountry)
 
     const category = useStore(state => state.category)
     const setCategory = useStore(state => state.setCategory)
+
+    const setSellerAccountPage = () => {
+        navigate("/seller-account")
+    }
+
+    const setMyPurchasesPage = () => {
+        navigate("/my-purchases")
+    }
 
     return (
         <div className="navbar">
@@ -35,8 +46,8 @@ export default function Navbar() {
                     onChange={setCategory}
                 />
             </>
-            <button className="navbar-btn navbar-btn-my-seller-account">My seller account</button>
-            <button className="navbar-btn">My purchases</button>
+            <button className="navbar-btn navbar-btn-my-seller-account" onClick={setSellerAccountPage}>My seller account</button>
+            <button className="navbar-btn" onClick={setMyPurchasesPage}>My purchases</button>
             <Connect className="connect-btn" />
         </div >
     )
