@@ -1,11 +1,11 @@
 import React from "react"
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 import "./Navbar.css"
 import useStore from "../store"
 import UnidoubleLogo from "../images/unidouble-logo.png"
-import Connect from "./Connect"
 import { countries } from "../config/countries"
 import { categories } from "../config/categories"
 
@@ -48,7 +48,7 @@ export default function Navbar() {
             </>
             <button className="navbar-btn navbar-btn-my-seller-account" onClick={setSellerAccountPage}>My seller account</button>
             <button className="navbar-btn" onClick={setMyPurchasesPage}>My purchases</button>
-            <Connect className="connect-btn" />
+            <WalletMultiButton />
         </div >
     )
 }

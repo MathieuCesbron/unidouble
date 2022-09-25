@@ -15,6 +15,7 @@ describe("unidouble", () => {
   it("works as a store", async () => {
     console.log("initialize store")
     const creator = await generateUser(2, provider)
+    console.log(creator.publicKey.toString())
     const [store] = await anchor.web3.PublicKey.findProgramAddress(
       [creator.publicKey.toBuffer()],
       program.programId

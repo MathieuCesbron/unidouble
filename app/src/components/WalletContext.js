@@ -1,5 +1,5 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
+import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react'
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import {
     PhantomWalletAdapter,
@@ -15,7 +15,7 @@ import React, { useMemo } from 'react'
 
 require('@solana/wallet-adapter-react-ui/styles.css')
 
-const Context = ({ children }) => {
+export const WalletContext = ({ children }) => {
     const network = WalletAdapterNetwork.Devnet
     const endpoint = useMemo(() => clusterApiUrl(network), [network])
     const wallets = useMemo(
@@ -37,15 +37,5 @@ const Context = ({ children }) => {
                 <WalletModalProvider>{children}</WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>
-    )
-}
-
-export default function App() {
-    return (
-        <Context>
-            <div>
-                <WalletMultiButton />
-            </div>
-        </Context>
     )
 }
