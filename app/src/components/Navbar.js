@@ -35,8 +35,8 @@ export default function Navbar() {
                     onChange={setCategory}
                 />
             </>
-            <button>My seller account</button>
-            <button>My purchases</button>
+            <button className="navbar-btn navbar-btn-my-seller-account">My seller account</button>
+            <button className="navbar-btn">My purchases</button>
             <Connect className="connect-btn" />
         </div >
     )

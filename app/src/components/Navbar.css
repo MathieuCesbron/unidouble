@@ -1,10 +1,11 @@
 .navbar {
     background-color: #ecebeb;
-    border: #dbd6e8 solid;
+    border-bottom: #dbd6e8 solid 1px;
     height: 80px;
     display: flex;
     align-items: center;
-    padding: 0 20px
+    padding: 0 20px;
+    min-width: 1150px;
 }
 
 .unidouble-logo {
@@ -14,16 +15,29 @@
 .select {
     width: 170px;
     margin-left: 20px;
-}
-
-.select-country {
-    /* PLACEHOLDER */
+    font-size: medium;
 }
 
 .select-category {
     margin-right: auto;
 }
 
-.connect-btn {
-    /* PLACEHOLDER */
+.navbar-btn {
+    width: 170px;
+    height: 40px;
+    margin-right: 20px;
+    border-radius: 5px;
+    border: #dbd6e8 solid 1px;
+    font-size: medium;
+    background-color: white;
+}
+
+.navbar-btn-my-seller-account {
+    margin-left: auto;
+}
+
+.navbar-btn:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
 }
