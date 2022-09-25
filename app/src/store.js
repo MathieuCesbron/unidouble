@@ -1,7 +1,10 @@
 import create from "zustand"
+import { PublicKey } from "@solana/web3.js"
+
+import idl from "./utils/idl.json"
 
 const useStore = create(set => ({
-    programID: "C4TX181DDiFWoshCY3S8yMu6agRnz3cov2tQ87XsdimJ",
+    programID: new PublicKey(idl.metadata.address),
     storeCreatorPubKey: "2a8V8LjEajNuJMoTK6Z1jbjBJLgJMr75VB8HYF1sUJZd",
 
     country: { value: 0, label: "United States" },

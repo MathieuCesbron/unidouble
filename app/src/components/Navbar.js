@@ -8,9 +8,12 @@ import useStore from "../store"
 import UnidoubleLogo from "../images/unidouble-logo.png"
 import { countries } from "../config/countries"
 import { categories } from "../config/categories"
+import { useWallet } from "@solana/wallet-adapter-react";
 
 
 export default function Navbar() {
+    const { connected } = useWallet()
+
     const navigate = useNavigate()
 
     const country = useStore(state => state.country)
@@ -18,6 +21,10 @@ export default function Navbar() {
 
     const category = useStore(state => state.category)
     const setCategory = useStore(state => state.setCategory)
+
+    const setHomePage = () => {
+        navigate("/")
+    }
 
     const setSellerAccountPage = () => {
         navigate("/seller-account")
@@ -29,7 +36,7 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
-            <img className="unidouble-logo" src={UnidoubleLogo} />
+            <img className="unidouble-logo" src={UnidoubleLogo} onClick={setHomePage} />
             <>
                 <Select
                     className="select select-country"
@@ -46,8 +53,8 @@ export default function Navbar() {
                     onChange={setCategory}
                 />
             </>
-            <button className="navbar-btn navbar-btn-my-seller-account" onClick={setSellerAccountPage}>My seller account</button>
-            <button className="navbar-btn" onClick={setMyPurchasesPage}>My purchases</button>
+            <button disabled={!connected} className="navbar-btn navbar-btn-my-seller-account" onClick={setSellerAccountPage}>My seller account</button>
+            <button disabled={!connected} className="navbar-btn" onClick={setMyPurchasesPage}>My purchases</button>
             <WalletMultiButton />
         </div >
     )
