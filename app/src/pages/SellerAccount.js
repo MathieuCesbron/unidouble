@@ -9,37 +9,62 @@ export default function SellerAccount() {
     const navigate = useNavigate()
 
     const programID = useStore(state => state.programID)
-    const { connected } = useWallet()
-    const [isSeller, setIsSeller] = useState(false)
+    const { connected, publicKey } = useWallet()
+    const [isSeller, setIsSeller] = useState(undefined)
 
     useEffect(() => {
         if (!connected) {
             navigate("/")
         }
-        // check if I am seller or not
-        // If I am not a seller, than show the create seller button
-        // Else show articles and all
-        // It is async so in the meantime I should render nothing
-        // so isSeller should have 3 possibilites: yes, no and undefined ( u got it)
-        const provider = getProvider()
-        const filters = []
-
-        const sellerAccount = async () => {
-            const seller = await provider.connection.getProgramAccounts(programID, filters)
-            console.log(seller)
+        if (!publicKey) {
+            return
         }
-        sellerAccount()
+
+        const provider = getProvider()
+        const filters = {
+            // might need to pass publicKey as string
+            filters: [
+                {
+                    dataSize: 140
+                },
+                {
+                    memcmp: {
+                        offset: 8,
+                        bytes: publicKey
+                    }
+                }
+            ]
+        }
+
+        const getSellerAccount = async () => {
+            console.log(programID, filters)
+            const sellerAccount = await provider.connection.getProgramAccounts(programID, filters)
+
+            if (sellerAccount.length == 1) {
+                setIsSeller(true)
+            } else {
+                setIsSeller(false)
+            }
+        }
+        getSellerAccount()
 
     }, [connected])
 
     const Buttons = () => {
-        if (isSeller) {
-            return (
-                <h1>I am a seller</h1>
-            )
+        switch (isSeller) {
+            case undefined:
+                return (
+                    <h1>Loading in progress</h1>
+                )
+            case false:
+                return (
+                    <h1>I am not a seller</h1>
+                )
+            case true:
+                return (
+                    <h1>I am a seller</h1>
+                )
         }
-
-        return <h1>I am not a seller</h1>
     }
 
     return (
