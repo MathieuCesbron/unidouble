@@ -1,0 +1,35 @@
+.create-seller-account {
+    text-align: center;
+}
+
+.create-seller-account-h2 {
+    font-size: 50px;
+    margin-bottom: 0;
+}
+
+.create-seller-account-p {
+    margin-top: 10px;
+    margin-bottom: 50px;
+    font-size: 20px;
+}
+
+.create-seller-account-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 28px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: black solid 2px;
+    background-color: rgb(244, 244, 244);
+}
+
+.create-seller-account-btn:hover {
+    cursor: pointer;
+    background-color: darkgrey;
+}
+
+.create-seller-account-logo {
+    height: 100px;
+}

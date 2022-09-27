@@ -4,6 +4,7 @@ import { useWallet } from "@solana/wallet-adapter-react"
 
 import useStore from "../store"
 import { getProvider } from "../utils/solana"
+import CreateSellerAccount from "../components/CreateSellerAccount"
 
 export default function SellerAccount() {
     const navigate = useNavigate()
@@ -37,7 +38,6 @@ export default function SellerAccount() {
         }
 
         const getSellerAccount = async () => {
-            console.log(programID, filters)
             const sellerAccount = await provider.connection.getProgramAccounts(programID, filters)
 
             if (sellerAccount.length == 1) {
@@ -58,7 +58,7 @@ export default function SellerAccount() {
                 )
             case false:
                 return (
-                    <h1>I am not a seller</h1>
+                    <CreateSellerAccount />
                 )
             case true:
                 return (
@@ -68,8 +68,8 @@ export default function SellerAccount() {
     }
 
     return (
-        <div>
+        <>
             <Buttons />
-        </div>
+        </>
     )
 }
