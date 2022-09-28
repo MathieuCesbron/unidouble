@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useWallet } from "@solana/wallet-adapter-react"
 
 import useStore from "../store"
-import { getProvider } from "../utils/solana"
+import { provider, programID } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
 
 export default function SellerAccount() {
     const navigate = useNavigate()
 
-    const programID = useStore(state => state.programID)
     const { connected, publicKey } = useWallet()
     const [isSeller, setIsSeller] = useState(undefined)
 
@@ -21,7 +20,6 @@ export default function SellerAccount() {
             return
         }
 
-        const provider = getProvider()
         const filters = {
             // might need to pass publicKey as string
             filters: [
