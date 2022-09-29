@@ -18,6 +18,8 @@
     max-width: 600px;
     border-radius: 5px;
     padding: 10px;
+    text-align: left;
+    padding: 20px;
 }
 
 .modal-exit {
