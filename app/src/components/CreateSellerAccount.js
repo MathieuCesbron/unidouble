@@ -13,26 +13,27 @@ export default function CreateSellerAccount() {
     const createSellerAccountOnChain = async () => {
         const sellerDiffieKeyPair = curve.genKeyPair()
         const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
-        const sellerAccount = await PublicKey.findProgramAddress(
+        const [sellerAccount] = await PublicKey.findProgramAddress(
             [publicKey.toBuffer()],
             programID
         )
 
-        // debug this tx. There is an error message in the log.
-        const tx = await program.methods
-            .createSellerAccount(sellerDiffiePubKey)
-            .accounts(
-                {
-                    user: publicKey,
-                    sellerAccount: sellerAccount,
-                    store: storePubKey,
-                    systemProgram: SystemProgram.programID
-                })
-            // may be signers is not necessary and sign automatically
-            .signers([publicKey])
-            .rpc()
-
-        console.log(tx)
+        console.log(publicKey, sellerAccount, storePubKey)
+        try {
+            const tx = await program.methods
+                .createSellerAccount(sellerDiffiePubKey)
+                .accounts(
+                    {
+                        user: publicKey,
+                        sellerAccount: sellerAccount,
+                        store: storePubKey,
+                        systemProgram: SystemProgram.programID
+                    })
+                .rpc()
+            console.log(tx)
+        } catch (error) {
+            console.log("error: ", error)
+        }
     }
 
     return (
