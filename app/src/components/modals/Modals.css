@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-width: 1200px;
 }
 
 .modal {
@@ -38,4 +39,19 @@
 .modal-exit-btn:hover {
     cursor: pointer;
     background-color: darkgray;
+}
+
+.modal-btn {
+    display: block;
+    margin: auto;
+    height: 40px;
+    width: 300px;
+    font-size: large;
+    border: black solid 2px;
+    border-radius: 4px;
+}
+
+.modal-btn:hover {
+    cursor: pointer;
+    background-color: darkgrey;
 }

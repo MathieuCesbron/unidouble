@@ -1,17 +1,20 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 
 import { program, programID, storePubKey } from "../../utils/solana"
 import { curve } from "../../utils/crypto"
 import "./Modals.css"
+import "./ModalCreateSellerAccount.css"
 
+
+const sellerDiffieKeyPair = curve.genKeyPair()
+const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
 
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
     const { publicKey } = useWallet()
+    const [isCopied, setIsCopied] = useState(false)
 
-    const sellerDiffieKeyPair = curve.genKeyPair()
-    const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
 
     const createSellerAccountOnChain = async () => {
         const [sellerAccount] = await PublicKey.findProgramAddress(
@@ -50,7 +53,20 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                 <p>This is your private key, save this somewhere safe, we won't show this to you ever again.
                     It will be needed to decode the sales you make.
                 </p>
-                <h4>{sellerDiffiePubKey}</h4>
+                <div className="modal-seller-diffie-pubkey">
+                    <h4>{sellerDiffiePubKey}</h4>
+                </div>
+                <input
+                    className="checkbox"
+                    type="checkbox"
+                    id="isCopied"
+                    checked={isCopied}
+                    onChange={() => setIsCopied(previsCopied => !previsCopied)}
+                />
+                <label htmlFor="isCopied">I have copied my private key</label>
+                <hr />
+                <p>Price: 0.002 SOL</p>
+                <button className="modal-btn">Validate transaction on wallet</button>
             </div>
         </div>
     )

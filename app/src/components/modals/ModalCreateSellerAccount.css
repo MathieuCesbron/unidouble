@@ -1,0 +1,22 @@
+.modal-seller-diffie-pubkey {
+    text-align: center;
+    border: darkgray solid 2px;
+    border-radius: 5px;
+    margin: 15px 0px;
+}
+
+hr {
+    margin: 15px 0px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.checkbox:hover {
+    cursor: pointer;
+}
+
+.modal-label-checkbox {
+    padding-bottom: 50px;
+}
