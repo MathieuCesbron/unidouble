@@ -21,7 +21,6 @@ export default function SellerAccount() {
         }
 
         const filters = {
-            // might need to pass publicKey as string
             filters: [
                 {
                     dataSize: 140
@@ -48,7 +47,7 @@ export default function SellerAccount() {
 
     }, [connected])
 
-    const Buttons = () => {
+    const SellerAccountMode = () => {
         switch (isSeller) {
             case undefined:
                 return (
@@ -67,7 +66,7 @@ export default function SellerAccount() {
 
     return (
         <>
-            <Buttons />
+            <SellerAccountMode />
         </>
     )
 }
