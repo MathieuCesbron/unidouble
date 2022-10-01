@@ -32,6 +32,16 @@ pub mod unidouble {
         Ok(())
     }
 
+    pub fn delete_seller_account(ctx: Context<DeleteSellerAccount>) -> Result<()> {
+        // TODO: Add a field to be sure the seller has removed all his items before
+        // deleting his seller account.
+        require!(
+            *ctx.accounts.user.key == ctx.accounts.seller_account.seller_public_key,
+            ErrorCode::InvalidSellerAccount
+        );
+        Ok(())
+    }
+
     pub fn update_diffie_seller_account(
         ctx: Context<UpdateDiffieSellerAccount>,
         diffie_public_key: String,
@@ -338,6 +348,14 @@ pub struct CreateSellerAccount<'info> {
     pub seller_account: Account<'info, SellerAccount>,
     pub store: Account<'info, Store>,
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct DeleteSellerAccount<'info> {
+    #[account(mut)]
+    pub user: Signer<'info>,
+    #[account(mut, close = user)]
+    pub seller_account: Account<'info, SellerAccount>,
 }
 
 #[derive(Accounts)]

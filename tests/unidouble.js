@@ -205,5 +205,19 @@ describe("unidouble", () => {
       .rpc()
 
     await provider.connection.confirmTransaction(txRemoveArticle, "confirmed")
+
+    console.log("delete seller account")
+
+    const txDeleteSellerAccount = await program.methods
+      .deleteSellerAccount()
+      .accounts(
+        {
+          user: seller.publicKey,
+          sellerAccount: sellerAccount,
+        })
+      .signers([seller])
+      .rpc()
+
+    await provider.connection.confirmTransaction(txDeleteSellerAccount, "confirmed")
   })
 })
