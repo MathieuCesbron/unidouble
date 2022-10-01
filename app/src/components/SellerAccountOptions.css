@@ -1,0 +1,52 @@
+.seller-account-options-grid {
+    margin-top: 150px;
+    display: grid;
+    justify-content: center;
+    grid-template-areas: "btn1 btn2"
+        "btn3 btn4";
+    grid-template-columns: 200px 200px;
+    grid-template-rows: 100px 100px;
+    gap: 30px;
+}
+
+.grid-btn {
+    font-size: large;
+    border: solid black 2px;
+    border-radius: 10px;
+}
+
+.grid-btn:hover {
+    cursor: pointer;
+}
+
+.btn1 {
+    background-color: rgb(148, 214, 49);
+}
+
+.btn1:hover {
+    background-color: rgb(0, 221, 0);
+}
+
+.btn2 {
+    background-color: rgb(246, 246, 84);
+}
+
+.btn2:hover {
+    background-color: yellow;
+}
+
+.btn3 {
+    background-color: lightskyblue
+}
+
+.btn3:hover {
+    background-color: rgb(100, 196, 255);
+}
+
+.btn4 {
+    background-color: rgb(255, 144, 124);
+}
+
+.btn4:hover {
+    background-color: red;
+}

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from "@solana/wallet-adapter-react"
 
-import useStore from "../store"
 import { provider, programID } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
+import SellerAccountOptions from "../components/SellerAccountOptions"
 
 export default function SellerAccount() {
     const navigate = useNavigate()
@@ -59,7 +59,7 @@ export default function SellerAccount() {
                 )
             case true:
                 return (
-                    <h1>I am a seller</h1>
+                    <SellerAccountOptions />
                 )
         }
     }
