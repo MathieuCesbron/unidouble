@@ -55,6 +55,22 @@
             ]
         },
         {
+            "name": "deleteSellerAccount",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "sellerAccount",
+                    "isMut": true,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
             "name": "updateDiffieSellerAccount",
             "accounts": [
                 {
