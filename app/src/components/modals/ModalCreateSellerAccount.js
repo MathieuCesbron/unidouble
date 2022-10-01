@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 
@@ -7,6 +7,7 @@ import { curve } from "../../utils/crypto"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import "./Modals.css"
 import "./ModalCreateSellerAccount.css"
+import useStore from "../../store";
 
 
 const sellerDiffieKeyPair = curve.genKeyPair()
@@ -14,6 +15,7 @@ const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
 const sellerDiffiePrivKey = sellerDiffieKeyPair.getPrivate().toString()
 
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
+    const setIsSeller = useStore(state => state.setIsSeller)
     const { publicKey } = useWallet()
     const [isCopied, setIsCopied] = useState(false)
 
@@ -35,6 +37,7 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                     })
                 .rpc()
             console.log(tx)
+            setIsSeller(true)
         } catch (error) {
             console.log("error: ", error)
         }

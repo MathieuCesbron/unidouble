@@ -5,12 +5,16 @@ import { useWallet } from "@solana/wallet-adapter-react"
 import { provider, programID } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
 import SellerAccountOptions from "../components/SellerAccountOptions"
+import useStore from "../store";
+
 
 export default function SellerAccount() {
+    const setIsSeller = useStore(state => state.setIsSeller)
+    const isSeller = useStore(state => state.isSeller)
     const navigate = useNavigate()
 
     const { connected, publicKey } = useWallet()
-    const [isSeller, setIsSeller] = useState(undefined)
+    // const [isSeller, setIsSeller] = useState(undefined)
 
     useEffect(() => {
         if (!connected) {

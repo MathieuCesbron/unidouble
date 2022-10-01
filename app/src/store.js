@@ -7,8 +7,8 @@ const useStore = create(set => ({
     category: { value: 0, label: "Homemade" },
     setCategory: (category) => set(state => ({ category })),
 
-    isSellerAccount: false,
-    setSellerAcount: () => set(state => ({ isSellerAccount: !state.isSellerAccount }))
+    isSeller: undefined,
+    setIsSeller: (isSeller) => set(state => ({ isSeller }))
 }))
 
 export default useStore

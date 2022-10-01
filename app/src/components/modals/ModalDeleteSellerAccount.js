@@ -4,9 +4,12 @@ import React, { useState } from "react"
 
 import { program, programID } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
+import useStore from "../../store"
 import "./Modals.css"
 
+
 export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccount }) {
+    const setIsSeller = useStore(state => state.setIsSeller)
     const { publicKey } = useWallet()
     const [isSure, setIsSure] = useState(false)
 
@@ -15,6 +18,21 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
             [publicKey.toBuffer()],
             programID
         )
+
+        try {
+            const tx = await program.methods
+                .deleteSellerAccount()
+                .accounts(
+                    {
+                        user: publicKey,
+                        sellerAccount: sellerAccount,
+                    })
+                .rpc()
+            console.log(tx)
+            setIsSeller(false)
+        } catch (error) {
+            console.log("error: ", error)
+        }
     }
 
     return (
