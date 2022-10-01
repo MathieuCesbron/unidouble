@@ -17,7 +17,6 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
     const { publicKey } = useWallet()
     const [isCopied, setIsCopied] = useState(false)
 
-
     const createSellerAccountOnChain = async () => {
         const [sellerAccount] = await PublicKey.findProgramAddress(
             [publicKey.toBuffer()],
