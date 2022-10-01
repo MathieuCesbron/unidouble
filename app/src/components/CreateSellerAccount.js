@@ -10,7 +10,7 @@ export default function CreateSellerAccount() {
     return (
         <div className="create-seller-account">
             <h2 className="create-seller-account-h2">Become a Unidouble seller</h2>
-            <p className="create-seller-account-p">It costs less than 0.002 SOL (~ 0.07 USD) that you get back when you delete your seller account</p>
+            <p className="create-seller-account-p">It costs 0.00187 SOL (~ 0.07 USD) that you get back when you delete your seller account</p>
             <button className="create-seller-account-btn" onClick={() => setShowModalCreateSellerAccount(true)}>
                 <img src={CreateSellerAccountLogo} className="create-seller-account-logo" />
                 Create seller account
