@@ -11,6 +11,7 @@ import "./ModalCreateSellerAccount.css"
 
 const sellerDiffieKeyPair = curve.genKeyPair()
 const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
+const sellerDiffiePrivKey = sellerDiffieKeyPair.getPrivate().toString()
 
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
     const { publicKey } = useWallet()
@@ -54,8 +55,8 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                 <p>This is your private key, save this somewhere safe, we won't show this to you ever again.
                     It will be needed to decode the sales you make.
                 </p>
-                <div className="modal-seller-diffie-pubkey">
-                    <h4>{sellerDiffiePubKey}</h4>
+                <div className="modal-seller-diffie-privKey">
+                    <h4>{sellerDiffiePrivKey}</h4>
                 </div>
                 <input
                     className="checkbox"
