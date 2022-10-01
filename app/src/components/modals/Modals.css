@@ -33,12 +33,12 @@
     border: black solid 2px;
     padding: 2px 20px;
     font-size: large;
-    background-color: rgb(244, 244, 244);
+    background-color: rgb(255, 144, 124);
 }
 
 .modal-exit-btn:hover {
     cursor: pointer;
-    background-color: darkgray;
+    background-color: red;
 }
 
 .modal-price-wrapper {
@@ -62,9 +62,15 @@
     font-size: large;
     border: black solid 2px;
     border-radius: 4px;
+    background-color: rgb(148, 214, 49);
+}
+
+.modal-btn:disabled {
+    background-color: darkgrey;
+    opacity: 0.5;
 }
 
 .modal-btn:hover:enabled {
     cursor: pointer;
-    background-color: darkgrey;
+    background-color: rgb(0, 221, 0);
 }

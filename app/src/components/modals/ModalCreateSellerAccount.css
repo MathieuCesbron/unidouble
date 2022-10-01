@@ -20,8 +20,3 @@ hr {
 .modal-label-checkbox {
     padding-bottom: 50px;
 }
-
-.modal-btn:disabled {
-    background-color: darkgrey;
-    opacity: 0.5;
-}
