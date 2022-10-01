@@ -4,6 +4,7 @@ import { PublicKey, SystemProgram } from "@solana/web3.js"
 
 import { program, programID, storePubKey } from "../../utils/solana"
 import { curve } from "../../utils/crypto"
+import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import "./Modals.css"
 import "./ModalCreateSellerAccount.css"
 
@@ -48,7 +49,7 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                         onClick={() => setShowModalCreateSellerAccount(false)}
                     >EXIT</button>
                 </div>
-                <h3>Create seller account</h3>
+                <h2>Create seller account</h2>
                 <hr />
                 <p>This is your private key, save this somewhere safe, we won't show this to you ever again.
                     It will be needed to decode the sales you make.
@@ -65,8 +66,13 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                 />
                 <label htmlFor="isCopied">I have copied my private key</label>
                 <hr />
-                <p>Price: 0.002 SOL</p>
-                <button disabled={!isCopied} className="modal-btn">Validate transaction on wallet</button>
+                <div className="modal-price-wrapper">
+                    <h3>Price: 0.00187</h3>
+                    <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
+                </div>
+                <button disabled={!isCopied} className="modal-btn" onClick={createSellerAccountOnChain}>
+                    Validate transaction on wallet
+                </button>
             </div>
         </div>
     )

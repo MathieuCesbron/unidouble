@@ -41,6 +41,19 @@
     background-color: darkgray;
 }
 
+.modal-price-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    height: 20px;
+    margin-bottom: 20px;
+}
+
+.modal-solana-logo-blue {
+    height: 23px;
+    margin: 0 5px;
+}
+
 .modal-btn {
     display: block;
     margin: auto;
