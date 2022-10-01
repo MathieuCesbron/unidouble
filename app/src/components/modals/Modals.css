@@ -51,7 +51,7 @@
     border-radius: 4px;
 }
 
-.modal-btn:hover {
+.modal-btn:hover:enabled {
     cursor: pointer;
     background-color: darkgrey;
 }

@@ -66,7 +66,7 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                 <label htmlFor="isCopied">I have copied my private key</label>
                 <hr />
                 <p>Price: 0.002 SOL</p>
-                <button className="modal-btn">Validate transaction on wallet</button>
+                <button disabled={!isCopied} className="modal-btn">Validate transaction on wallet</button>
             </div>
         </div>
     )

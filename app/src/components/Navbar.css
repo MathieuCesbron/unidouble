@@ -39,12 +39,12 @@
     background-color: white;
 }
 
-.navbar-btn-my-seller-account {
-    margin-left: auto;
-}
-
 .navbar-btn:hover:enabled {
     cursor: pointer;
     background-color: black;
     color: white;
+}
+
+.navbar-btn-my-seller-account {
+    margin-left: auto;
 }
