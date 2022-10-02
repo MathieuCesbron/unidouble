@@ -7,8 +7,15 @@ export default function Footer() {
 
     return (
         <div className="footer">
-            <p onClick={() => navigate("/whitepaper")}>Whitepaper</p>
-            <p onClick={() => navigate("/terms-and-conditions")}>Terms and Conditions</p>
+            <p
+                className="footer-link"
+                onClick={() => navigate("/whitepaper")}>
+                Whitepaper
+            </p>
+            <p
+                className="footer-link"
+                onClick={() => navigate("/terms-and-conditions")}>
+                Terms and Conditions</p>
         </div>
     )
 }

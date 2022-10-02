@@ -8,11 +8,11 @@
     justify-content: center;
 }
 
-p {
+.footer-link {
     margin: 0 20px;
 }
 
-p:hover {
+.footer-link:hover {
     cursor: pointer;
     text-decoration: underline;
 }
