@@ -4,7 +4,7 @@
     justify-content: center;
     grid-template-areas: "btn1 btn2"
         "btn3 btn4";
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 250px 250px;
     grid-template-rows: 100px 100px;
     gap: 30px;
 }
@@ -13,6 +13,8 @@
     font-size: large;
     border: solid black 2px;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .grid-btn:hover {
@@ -49,4 +51,30 @@
 
 .btn4:hover {
     background-color: red;
+}
+
+.grid-btn-logo {
+    height: 50px;
+    margin-left: 10px;
+}
+
+.grid-btn-text1 {
+    margin-left: 25px;
+    font-size: larger;
+}
+
+.grid-btn-text2 {
+    margin-left: 48px;
+    font-size: larger;
+}
+
+.grid-btn-text3 {
+    margin-left: 25px;
+    font-size: larger;
+}
+
+.grid-btn-text4 {
+    margin: auto;
+    margin-right: 15px;
+    font-size: larger;
 }
