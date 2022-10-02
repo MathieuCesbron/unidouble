@@ -11,3 +11,8 @@
 p {
     margin: 0 20px;
 }
+
+p:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
