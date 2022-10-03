@@ -1,0 +1,85 @@
+.form-selects {
+    display: flex;
+}
+
+.form-select {
+    width: 230px;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+label {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.input-private-key {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.modal-field-label-price {
+    display: flex;
+    align-items: center;
+
+}
+
+.modal-field-price {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.modal-field-quantity {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+}
+
+.modal-field-price-quantity {
+    display: flex;
+}
+
+.input-price {
+    height: 25px;
+    width: 100px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.solana-icon-blue {
+    margin-left: 5px;
+    height: 25px;
+}
+
+.input-quantity {
+    height: 25px;
+    width: 100px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.input-title {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.input-imageURL {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.input-description {
+    height: 100px;
+    border-radius: 5px;
+    border: solid lightgrey 2px;
+}
