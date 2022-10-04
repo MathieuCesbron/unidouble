@@ -14,7 +14,6 @@ export default function SellerAccount() {
     const navigate = useNavigate()
 
     const { connected, publicKey } = useWallet()
-    // const [isSeller, setIsSeller] = useState(undefined)
 
     useEffect(() => {
         if (!connected) {

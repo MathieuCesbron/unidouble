@@ -19,7 +19,8 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
             quantity: "",
             title: "",
             imageURL: "",
-            description: ""
+            description: "",
+            error: ""
         }
     )
 
@@ -46,7 +47,114 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
 
     const submitNewArticle = event => {
         event.preventDefault()
-        // TODO: validate transaction before sending it
+        if (newArticleFormData.country === "") {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "Select a country"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.category === "") {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "Select a category"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.privateKey.length != 76) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The Private key should be exactly 76 characters"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.price < 0.01 ||
+            newArticleFormData.price > 1000000) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The Price should be between 0.01 and 1000000 SOL"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.quantity < 1 ||
+            newArticleFormData.quantity > 255) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The Quantity should be between 1 and 255"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.title.length < 10 ||
+            newArticleFormData.title > 75) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The Title should be between 10 and 75 characters"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.imageURL.length < 10 ||
+            newArticleFormData.imageURL > 50) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The Image URL should be between 10 and 50 characters"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
+        if (newArticleFormData.description.length < 50 ||
+            newArticleFormData.description > 750) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: "The description should be between 50 and 750 characters"
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
     }
 
     return (
@@ -160,6 +268,7 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                             maxLength="750"
                         ></textarea>
                     </div>
+                    {newArticleFormData.error && <p className="error">{newArticleFormData.error}</p>}
                     <button className="modal-btn" type="submit">
                         Validate transaction on wallet
                     </button>

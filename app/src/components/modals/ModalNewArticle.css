@@ -83,3 +83,8 @@ label {
     border-radius: 5px;
     border: solid lightgrey 2px;
 }
+
+.error {
+    color: red;
+    text-align: center;
+}
