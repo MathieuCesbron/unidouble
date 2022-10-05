@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
+import { useAnchorWallet } from "@solana/wallet-adapter-react"
+import { SystemProgram, PublicKey, LAMPORTS_PER_SOL, Transaction } from "@solana/web3.js"
+import { utils, BN } from "@project-serum/anchor"
 import Select from 'react-select'
 
 import { countries } from "../../config/countries"
 import { categories } from "../../config/categories"
 import solanaIconBlue from "../../images/solana-icon-blue.png"
+import { program, programID, storePubKey, provider } from "../../utils/solana"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
 
 export default function ModalNewArticle({ setShowModalNewArticle }) {
-    const uuid = Math.random().toString(36).slice(-6)
+    const { publicKey, signAllTransactions } = useAnchorWallet()
     const [newArticleFormData, setNewArticleFormData] = useState(
         {
             country: "",
@@ -45,7 +49,7 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
         }))
     }
 
-    const submitNewArticle = event => {
+    const submitNewArticle = async event => {
         event.preventDefault()
         if (newArticleFormData.country === "") {
             setNewArticleFormData(prevNewArticleFormData => ({
@@ -154,6 +158,74 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                 ...prevNewArticleFormData,
                 error: ""
             }))
+        }
+
+        const uuid = Math.random().toString(36).slice(-6)
+        const [article] = await PublicKey.findProgramAddress(
+            [utils.bytes.utf8.encode(uuid)],
+            programID
+        )
+
+        const [sellerAccount] = await PublicKey.findProgramAddress(
+            [publicKey.toBuffer()],
+            programID
+        )
+
+        try {
+            const instructionInitializeArticle = program.instruction.initializeArticle(
+                uuid,
+                newArticleFormData.country,
+                newArticleFormData.category,
+                {
+                    accounts: {
+                        user: publicKey,
+                        article: article,
+                        sellerAccount: sellerAccount,
+                        store: storePubKey,
+                        systemProgram: SystemProgram.programId
+                    }
+                }
+            )
+
+            const price = new BN(parseFloat(newArticleFormData.price) * LAMPORTS_PER_SOL)
+            const instructionPostArticle = program.instruction.postArticle(
+                price,
+                newArticleFormData.quantity,
+                newArticleFormData.title,
+                newArticleFormData.description,
+                newArticleFormData.imageURL,
+                {
+                    accounts: {
+                        user: publicKey,
+                        article: article
+                    }
+                }
+            )
+
+
+            const txInitializeArticle = new Transaction().add(instructionInitializeArticle)
+            const txPostArticle = new Transaction().add(instructionPostArticle)
+            const block = await provider.connection.getLatestBlockhash()
+
+            const txs = [txInitializeArticle, txPostArticle]
+            txs.forEach(tx => {
+                tx.recentBlockhash = block.blockhash
+                tx.feePayer = publicKey
+            })
+
+            const signedTxs = await signAllTransactions(txs)
+
+            for (let signedTx of signedTxs) {
+                const tx = await provider.connection.sendRawTransaction(
+                    signedTx.serialize()
+                )
+
+                await provider.connection.confirmTransaction(tx)
+                console.log(tx)
+            }
+            setShowModalNewArticle(false)
+        } catch (error) {
+            console.log("error: ", error)
         }
     }
 
