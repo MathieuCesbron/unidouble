@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import newArticleLogo from "../images/new-article-logo.png"
 import salesLogo from "../images/sales-logo.png"
@@ -10,11 +11,17 @@ import "./SellerAccountOptions.css"
 
 
 export default function SellerAccountOptions() {
+    const navigate = useNavigate()
+
     const [showModalNewArticle, setShowModalNewArticle] = useState(false)
     const [showModalDeleteSellerAccount, setShowModalDeleteSellerAccount] = useState(false)
 
     const newArticleHandler = () => {
         setShowModalNewArticle(true)
+    }
+
+    const myArticlesHandler = () => {
+        navigate("my-articles")
     }
 
     const deleteSellerAccountHandler = () => {
@@ -31,7 +38,7 @@ export default function SellerAccountOptions() {
                 <img src={salesLogo} className="grid-btn-logo" />
                 <b className="grid-btn-text2">Sales</b>
             </button>
-            <button className="grid-btn btn3">
+            <button className="grid-btn btn3" onClick={myArticlesHandler}>
                 <img src={myArticlesLogo} className="grid-btn-logo" />
                 <b className="grid-btn-text3">My articles</b>
             </button>
