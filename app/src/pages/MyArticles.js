@@ -1,12 +1,16 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from "@project-serum/borsh"
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
+import MyArticle from "../components/MyArticle"
+import { useNavigate } from "react-router-dom"
 
 
 export default function MyArticles() {
+    const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
+    const [myArticles, setMyArticles] = useState([])
 
     const getMyArticles = async () => {
         const filters = {
@@ -59,20 +63,39 @@ export default function MyArticles() {
             ]).decode(encodedArticle.account.data, 8)
         }))
 
-        console.log(decodedArticles[10].data)
         return decodedArticles
     }
 
     useEffect(() => {
         if (!connected) {
+            navigate("/")
+        }
+        if (!publicKey) {
             return
         }
-        const myArticles = getMyArticles()
+
+        const getMyDecodedArticles = async () => {
+            const myArticles = await getMyArticles()
+            setMyArticles(myArticles)
+        }
+        getMyDecodedArticles()
     }, [])
 
     return (
-        <div>
-            PLACEHOLDER
+        <div className="my-articles">
+            {
+                myArticles.length ?
+                    <div>
+                        {
+                            myArticles.map(({ pubKey, data }) => (
+                                < MyArticle
+                                    key={data.uuid}
+                                />
+                            ))
+                        }
+                    </div>
+                    : console.log("no articles to show")
+            }
         </div>
     )
 }
