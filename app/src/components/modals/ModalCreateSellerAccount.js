@@ -7,7 +7,7 @@ import { curve } from "../../utils/crypto"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import "./Modals.css"
 import "./ModalCreateSellerAccount.css"
-import useStore from "../../store";
+import useStore from "../../store"
 
 
 const sellerDiffieKeyPair = curve.genKeyPair()
