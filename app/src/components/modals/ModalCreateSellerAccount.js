@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 
-import { program, programID, storePubKey } from "../../utils/solana"
+import { getProgram, programID, storePubKey } from "../../utils/solana"
 import { curve } from "../../utils/crypto"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import "./Modals.css"
@@ -26,6 +26,7 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
         )
 
         try {
+            const program = getProgram()
             const tx = await program.methods
                 .createSellerAccount(sellerDiffiePubKey)
                 .accounts(

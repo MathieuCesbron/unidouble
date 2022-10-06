@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js"
 import { useWallet } from "@solana/wallet-adapter-react"
 import React, { useState } from "react"
 
-import { program, programID } from "../../utils/solana"
+import { getProgram, programID } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import useStore from "../../store"
 import "./Modals.css"
@@ -20,6 +20,7 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
         )
 
         try {
+            const program = getProgram()
             const tx = await program.methods
                 .deleteSellerAccount()
                 .accounts(

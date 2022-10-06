@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from "@solana/wallet-adapter-react"
 
-import { provider, programID } from "../utils/solana"
+import { programID, connection } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
 import SellerAccountOptions from "../components/SellerAccountOptions"
 import useStore from "../store";
@@ -38,7 +38,7 @@ export default function SellerAccount() {
         }
 
         const getSellerAccount = async () => {
-            const sellerAccount = await provider.connection.getProgramAccounts(programID, filters)
+            const sellerAccount = await connection.getProgramAccounts(programID, filters)
 
             if (sellerAccount.length == 1) {
                 setIsSeller(true)

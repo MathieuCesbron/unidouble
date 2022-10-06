@@ -7,7 +7,7 @@ import Select from 'react-select'
 import { countries } from "../../config/countries"
 import { categories } from "../../config/categories"
 import solanaIconBlue from "../../images/solana-icon-blue.png"
-import { program, programID, storePubKey, provider } from "../../utils/solana"
+import { programID, storePubKey, connection, getProgram } from "../../utils/solana"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
@@ -172,6 +172,7 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
         )
 
         try {
+            const program = getProgram()
             const instructionInitializeArticle = program.instruction.initializeArticle(
                 uuid,
                 newArticleFormData.country,
@@ -205,7 +206,8 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
 
             const txInitializeArticle = new Transaction().add(instructionInitializeArticle)
             const txPostArticle = new Transaction().add(instructionPostArticle)
-            const block = await provider.connection.getLatestBlockhash()
+
+            const block = await connection.getLatestBlockhash()
 
             const txs = [txInitializeArticle, txPostArticle]
             txs.forEach(tx => {
@@ -216,11 +218,11 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
             const signedTxs = await signAllTransactions(txs)
 
             for (let signedTx of signedTxs) {
-                const tx = await provider.connection.sendRawTransaction(
+                const tx = await connection.sendRawTransaction(
                     signedTx.serialize()
                 )
 
-                await provider.connection.confirmTransaction(tx)
+                await connection.confirmTransaction(tx)
                 console.log(tx)
             }
             setShowModalNewArticle(false)
