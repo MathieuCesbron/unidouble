@@ -55,7 +55,7 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                     type="checkbox"
                     id="isSure"
                     checked={isSure}
-                    onChange={() => setIsSure(previsSure => !previsSure)}
+                    onChange={() => setIsSure(prevIsSure => !prevIsSure)}
                 />
                 <label htmlFor="isSure">I want to delete my seller account</label>
                 <hr />
@@ -63,7 +63,7 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                     <h3>Gain: 0.00187</h3>
                     <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
                 </div>
-                <button disabled={!isSure} className="modal-btn" onClick={deleteSellerAccountOnchain}>
+                <button disabled={!isSure} className="modal-btn" onClick={deleteSellerAccountOnChain}>
                     Validate transaction on wallet
                 </button>
             </div>
