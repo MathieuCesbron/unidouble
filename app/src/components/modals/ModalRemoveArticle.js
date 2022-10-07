@@ -1,39 +1,39 @@
-import { PublicKey } from "@solana/web3.js"
-import { useWallet } from "@solana/wallet-adapter-react"
 import React, { useState } from "react"
 
-import { getProgram, programID } from "../../utils/solana"
+import { getProgram, storePubKey } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
-import useStore from "../../store"
 import "./Modals.css"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 
-export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccount }) {
-    const setIsSeller = useStore(state => state.setIsSeller)
+export default function ModalRemoveArticle(props) {
     const { publicKey } = useWallet()
     const [isSure, setIsSure] = useState(false)
 
-    const deleteSellerAccountOnChain = async () => {
-        const [sellerAccount] = await PublicKey.findProgramAddress(
-            [publicKey.toBuffer()],
-            programID
-        )
-
+    const removeArticleOnChain = async () => {
         try {
             const program = getProgram()
             const tx = await program.methods
-                .deleteSellerAccount()
+                .removeArticle()
                 .accounts(
                     {
                         user: publicKey,
-                        sellerAccount: sellerAccount,
+                        article: props.articlePubKey,
+                        store: storePubKey
                     })
                 .rpc()
             console.log(tx)
-            setIsSeller(false)
+
+            props.setMyArticles(prevMyArticles => (
+                prevMyArticles.filter(
+                    myArticle => myArticle.articlePubKey !== props.articlePubKey
+                )
+            ))
         } catch (error) {
             console.log("error: ", error)
         }
+
+        props.setShowModalRemoveArticle(false)
     }
 
     return (
@@ -42,14 +42,13 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                 <div className="modal-exit">
                     <button
                         className="modal-exit-btn"
-                        onClick={() => setShowModalDeleteSellerAccount(false)}
-                    >EXIT</button>
+                        onClick={() => props.setShowModalRemoveArticle(false)}>
+                        EXIT</button>
                 </div>
-                <h2>Delete seller account</h2>
+                <h2>Remove article</h2>
                 <hr />
-                <p>You can only delete your seller account when you have removed all your articles.
-                    0.00187 SOL will be credited back to your account.
-                </p>
+                <p>Remove an article, this action is definitive. 0.07049 SOL will be
+                    credited back to your account.</p>
                 <input
                     className="checkbox"
                     type="checkbox"
@@ -57,13 +56,13 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                     checked={isSure}
                     onChange={() => setIsSure(prevIsSure => !prevIsSure)}
                 />
-                <label htmlFor="isSure">I want to delete my seller account</label>
+                <label htmlFor="isSure">I want to remove this article</label>
                 <hr />
                 <div className="modal-price-wrapper">
-                    <h3>Gain: 0.00187</h3>
+                    <h3>Gain: 0.07049</h3>
                     <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
                 </div>
-                <button disabled={!isSure} className="modal-btn" onClick={deleteSellerAccountOnChain}>
+                <button disabled={!isSure} className="modal-btn" onClick={removeArticleOnChain}>
                     Validate transaction on wallet
                 </button>
             </div>

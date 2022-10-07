@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 
+import ModalRemoveArticle from "./modals/ModalRemoveArticle"
 import "./MyArticle.css"
 
 export default function MyArticle(props) {
     const [showModalRemoveArticle, setShowModalRemoveArticle] = useState(false)
+
 
     return (
         <div className="my-article">
@@ -23,6 +25,15 @@ export default function MyArticle(props) {
                     </div>
                 </div>
             </div>
+
+            {
+                showModalRemoveArticle &&
+                <ModalRemoveArticle
+                    setShowModalRemoveArticle={setShowModalRemoveArticle}
+                    articlePubKey={props.articlePubKey}
+                    setMyArticles={props.setMyArticles}
+                />
+            }
         </div>
     )
 }

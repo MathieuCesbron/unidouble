@@ -40,7 +40,7 @@ export default function MyArticles() {
         )
 
         const decodedArticles = encodedArticles.map(encodedArticle => ({
-            pubKey: encodedArticle.pubkey.toString(),
+            articlePubKey: encodedArticle.pubkey.toString(),
             data: struct([
                 publicKeyBorsh("seller_account_public_key"),
                 publicKeyBorsh("store_creator_public_key"),
@@ -90,8 +90,11 @@ export default function MyArticles() {
         if (myArticles.length) {
             return <div>
                 {
-                    myArticles.map(({ pubKey, data }) => (
+                    myArticles.map(({ articlePubKey, data }) => (
                         <MyArticle
+                            articlePubKey={articlePubKey}
+                            setMyArticles={setMyArticles}
+
                             key={data.uuid}
                             uuid={data.uuid}
                             country={data.country}
