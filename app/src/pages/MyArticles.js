@@ -4,13 +4,14 @@ import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 import MyArticle from "../components/MyArticle"
+import NoArticles from "../components/NoArticles"
 import { useNavigate } from "react-router-dom"
 
 
 export default function MyArticles() {
     const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
-    const [myArticles, setMyArticles] = useState([])
+    const [myArticles, setMyArticles] = useState(undefined)
 
     const getMyArticles = async () => {
         const filters = {
@@ -81,21 +82,28 @@ export default function MyArticles() {
         getMyDecodedArticles()
     }, [])
 
+    const MyArticlesMode = () => {
+        if (myArticles == undefined) {
+            return
+        }
+
+        if (myArticles.length) {
+            return <div>
+                {
+                    myArticles.map(({ pubKey, data }) => (
+                        <MyArticle
+                            key={data.uuid}
+                        />
+                    ))
+                }
+            </div>
+        }
+        return <NoArticles />
+    }
+
     return (
         <div className="my-articles">
-            {
-                myArticles.length ?
-                    <div>
-                        {
-                            myArticles.map(({ pubKey, data }) => (
-                                < MyArticle
-                                    key={data.uuid}
-                                />
-                            ))
-                        }
-                    </div>
-                    : console.log("no articles to show")
-            }
+            <MyArticlesMode />
         </div>
     )
 }
