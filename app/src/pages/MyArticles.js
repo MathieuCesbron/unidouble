@@ -6,7 +6,7 @@ import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 import MyArticle from "../components/MyArticle"
 import NoArticles from "../components/NoArticles"
 import { useNavigate } from "react-router-dom"
-
+import "./MyArticles.css"
 
 export default function MyArticles() {
     const navigate = useNavigate()
@@ -93,6 +93,23 @@ export default function MyArticles() {
                     myArticles.map(({ pubKey, data }) => (
                         <MyArticle
                             key={data.uuid}
+                            uuid={data.uuid}
+                            country={data.country}
+                            category={data.category}
+                            price={data.price}
+                            quantity={data.quantity}
+                            title={data.title}
+                            description={data.description}
+                            imageURL={data.image_url}
+                            buyerCount={data.buyer_count}
+                            ratingCount={data.rating_count}
+                            rating={data.rating}
+                            deliveryAddressCiphertexts={data.delivery_address_ciphertexts}
+                            reviewers={data.reviewers}
+                            quantity_bought={data.quantity_bought}
+                            buyer_diffie_public_keys={data.buyer_diffie_public_keys}
+                            buyers_salts={data.buyers_salts}
+                            buyers_ivs={data.buyers_ivs}
                         />
                     ))
                 }
