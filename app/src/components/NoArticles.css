@@ -1,0 +1,14 @@
+.no-articles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.no-articles-back-btn {
+    height: 80px;
+    width: 80px;
+}
+
+.no-articles-back-btn:hover {
+    cursor: pointer;
+}
