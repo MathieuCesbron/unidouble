@@ -17,6 +17,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
     "react-stars": "^2.2.5",
+    "react-tooltip": "^4.2.21",
     "zustand": "^4.1.1"
   },
   "scripts": {

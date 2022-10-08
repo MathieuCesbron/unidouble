@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { LAMPORTS_PER_SOL } from "@solana/web3.js"
 import ReactStars from 'react-stars'
+import ReactTooltip from "react-tooltip"
 
 import ModalRemoveArticle from "./modals/ModalRemoveArticle"
 import solanaLogoBlue from "../images/solana-icon-blue.png"
@@ -41,12 +42,17 @@ export default function MyArticle(props) {
                         <h3 className="my-article-price">{String(props.price) / LAMPORTS_PER_SOL}</h3>
                         <img className="my-article-solana-logo-blue" src={solanaLogoBlue} />
                     </div>
-                    <ReactStars
-                        count={5}
-                        value={props.rating}
-                        size={24}
-                        edit={false}
-                        color2={'#ffd700'} />
+                    <div data-tip={props.rating}>
+                        <ReactStars
+                            data-tip="hello world"
+                            className="my-article-stars"
+                            count={5}
+                            value={props.rating}
+                            size={24}
+                            edit={false}
+                            color2={'#ffd700'} />
+                    </div>
+                    <ReactTooltip />
                 </div>
                 <h5 className="my-article-quantity">
                     {props.quantity} available / {props.buyerCount} {props.buyerCount > 1 ? <>buyers</> : <>buyer</>}
@@ -61,6 +67,6 @@ export default function MyArticle(props) {
                     setMyArticles={props.setMyArticles}
                 />
             }
-        </div>
+        </div >
     )
 }
