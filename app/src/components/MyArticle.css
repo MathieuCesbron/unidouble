@@ -53,10 +53,17 @@
     background-color: red;
 }
 
+.my-article-price-stars {
+    display: flex;
+    align-items: center;
+}
+
 .my-article-price-wrapper {
     height: 40px;
     display: flex;
     align-items: center;
+    max-width: 200px;
+    min-width: 200px;
 }
 
 .my-article-price {

@@ -9740,6 +9740,11 @@
     "prop-types" "^15.6.0"
     "react-transition-group" "^4.3.0"
 
+"react-stars@^2.2.5":
+  "integrity" "sha512-O//KS6Z9RZnUOU/r+3+wxCzNalVn/wEWIcbAQFRV3dw8WbV+ys/kgcpBPijqTiNpHGrcwZdtb/7wF/UVem20CQ=="
+  "resolved" "https://registry.npmjs.org/react-stars/-/react-stars-2.2.5.tgz"
+  "version" "2.2.5"
+
 "react-transition-group@^4.3.0":
   "integrity" "sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g=="
   "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.5.tgz"
