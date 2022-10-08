@@ -78,3 +78,32 @@
 .my-article-quantity {
     margin-top: 3px;
 }
+
+.my-article-bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.my-article-description {
+    margin-top: 0;
+    max-width: 450px;
+    max-height: 43px;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.my-article-update-btn {
+    margin-top: 12px;
+    margin-right: 5px;
+    border-radius: 4px;
+    border: black solid 2px;
+    font-size: large;
+    background-color: rgba(143, 190, 251, 0.583);
+    height: 32px;
+    width: 100px;
+}
+
+.my-article-update-btn:hover {
+    cursor: pointer;
+    background-color: rgb(107, 166, 255);
+}

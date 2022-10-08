@@ -4,6 +4,7 @@ import ReactStars from 'react-stars'
 import ReactTooltip from "react-tooltip"
 
 import ModalRemoveArticle from "./modals/ModalRemoveArticle"
+import ModalUpdateArticle from "./modals/ModalUpdateArticle"
 import solanaLogoBlue from "../images/solana-icon-blue.png"
 import { countries } from "../config/countries"
 import { categories } from "../config/categories"
@@ -12,6 +13,7 @@ import "./MyArticle.css"
 
 export default function MyArticle(props) {
     const [showModalRemoveArticle, setShowModalRemoveArticle] = useState(false)
+    const [showModalUpdateArticle, setShowModalUpdateArticle] = useState(false)
 
     const country = countries.find(country => country.value === props.country).label
     const category = categories.find(category => category.value === props.category).label
@@ -57,6 +59,14 @@ export default function MyArticle(props) {
                 <h5 className="my-article-quantity">
                     {props.quantity} available / {props.buyerCount} {props.buyerCount > 1 ? <>buyers</> : <>buyer</>}
                 </h5>
+                <div className="my-article-bottom">
+                    <p className="my-article-description">{props.description}</p>
+                    <button
+                        className="my-article-update-btn"
+                        onClick={() => setShowModalUpdateArticle(true)}>
+                        UPDATE
+                    </button>
+                </div>
             </div>
 
             {
@@ -64,6 +74,18 @@ export default function MyArticle(props) {
                 <ModalRemoveArticle
                     setShowModalRemoveArticle={setShowModalRemoveArticle}
                     articlePubKey={props.articlePubKey}
+                    setMyArticles={props.setMyArticles}
+                />
+            }
+            {
+                showModalUpdateArticle &&
+                <ModalUpdateArticle
+                    setShowModalUpdateArticle={setShowModalUpdateArticle}
+                    articlePubKey={props.articlePubKey}
+                    quantity={props.quantity}
+                    title={props.title}
+                    imageURL={props.imageURL}
+                    description={props.description}
                     setMyArticles={props.setMyArticles}
                 />
             }
