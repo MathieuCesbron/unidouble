@@ -15,7 +15,7 @@ export default function MyArticle(props) {
             </div>
             <div className="my-article-info">
                 <div className="my-article-header">
-                    <h4>{props.title}</h4>
+                    <h4 className="my-article-title">{props.title}</h4>
                     <div className="my-article-remove">
                         <button
                             className="my-article-remove-btn"

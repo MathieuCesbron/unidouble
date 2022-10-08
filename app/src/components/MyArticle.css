@@ -10,23 +10,27 @@
     border: black solid 1px;
     min-height: 200px;
     min-width: 200px;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 .my-article-info {
-    background-color: blue;
     width: 100%;
     height: 100%;
 }
 
 .my-article-header {
+    height: 50px;
     display: flex;
+    justify-content: space-between;
+}
+
+.my-article-title {
+    margin-top: 5px;
+    font-size: larger;
 }
 
 .my-article-remove {
-    display: flex;
-    justify-content: right;
-    width: 100%;
+    margin: 5px;
 }
 
 .my-article-remove-btn {
