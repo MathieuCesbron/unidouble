@@ -19,14 +19,20 @@
 }
 
 .my-article-header {
-    height: 50px;
+    height: 70px;
     display: flex;
     justify-content: space-between;
 }
 
 .my-article-title {
     margin-top: 5px;
+    margin-bottom: 0px;
     font-size: larger;
+}
+
+.my-article-subtitle {
+    margin-top: 1px;
+    font-size: 11px;
 }
 
 .my-article-remove {
@@ -45,4 +51,23 @@
 .my-article-remove-btn:hover {
     cursor: pointer;
     background-color: red;
+}
+
+.my-article-price-wrapper {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.my-article-price {
+    font-size: 35px;
+}
+
+.my-article-solana-logo-blue {
+    height: 30px;
+    margin: 0 5px;
+}
+
+.my-article-quantity {
+    margin-top: 3px;
 }

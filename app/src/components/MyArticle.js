@@ -1,10 +1,18 @@
 import React, { useState } from "react"
+import { LAMPORTS_PER_SOL } from "@solana/web3.js"
 
 import ModalRemoveArticle from "./modals/ModalRemoveArticle"
+import solanaLogoBlue from "../images/solana-icon-blue.png"
+import { countries } from "../config/countries"
+import { categories } from "../config/categories"
 import "./MyArticle.css"
+
 
 export default function MyArticle(props) {
     const [showModalRemoveArticle, setShowModalRemoveArticle] = useState(false)
+
+    const country = countries.find(country => country.value === props.country).label
+    const category = categories.find(category => category.value === props.category).label
 
 
     return (
@@ -15,7 +23,10 @@ export default function MyArticle(props) {
             </div>
             <div className="my-article-info">
                 <div className="my-article-header">
-                    <h4 className="my-article-title">{props.title}</h4>
+                    <div className="my-article-title-wrapper">
+                        <h4 className="my-article-title">{props.title}</h4>
+                        <p className="my-article-subtitle">{country} / {category}</p>
+                    </div>
                     <div className="my-article-remove">
                         <button
                             className="my-article-remove-btn"
@@ -24,6 +35,11 @@ export default function MyArticle(props) {
                         </button>
                     </div>
                 </div>
+                <div className="my-article-price-wrapper">
+                    <h3 className="my-article-price">{String(props.price) / LAMPORTS_PER_SOL}</h3>
+                    <img className="my-article-solana-logo-blue" src={solanaLogoBlue} />
+                </div>
+                <h5 className="my-article-quantity">{props.quantity} available</h5>
             </div>
 
             {
