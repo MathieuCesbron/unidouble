@@ -29,7 +29,7 @@ export default function MyArticle(props) {
                 <div className="my-article-header">
                     <div className="my-article-title-wrapper">
                         <h4 className="my-article-title">{props.title}</h4>
-                        <p className="my-article-subtitle">{country} / {category}</p>
+                        <p className="my-article-subtitle">{country} / {category} / #{props.uuid}</p>
                     </div>
                     <div className="my-article-remove">
                         <button
