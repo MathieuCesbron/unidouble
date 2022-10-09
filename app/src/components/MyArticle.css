@@ -1,16 +1,35 @@
 .my-article {
     border: black solid 1px;
+    border-radius: 5px;
     height: 200px;
     width: 800px;
     margin-bottom: 30px;
     display: flex;
 }
 
-.my-article-image {
-    border: black solid 1px;
+.my-article-image-wrapper {
+    border-right: black solid 1px;
+    border-radius: 5px;
+    background-color: rgb(229, 229, 229);
     min-height: 200px;
+    max-height: 200px;
     min-width: 200px;
+    max-width: 200px;
     margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-article-image-wrapper:hover {
+    cursor: pointer;
+}
+
+.my-article-image {
+    object-fit: fill;
+    overflow: hidden;
+    max-height: 200px;
+    max-width: 200px;
 }
 
 .my-article-info {

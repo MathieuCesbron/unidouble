@@ -3,6 +3,7 @@ import { LAMPORTS_PER_SOL } from "@solana/web3.js"
 import ReactStars from 'react-stars'
 import ReactTooltip from "react-tooltip"
 
+import ModalImageFull from "./modals/ModalImageFull"
 import ModalRemoveArticle from "./modals/ModalRemoveArticle"
 import ModalUpdateArticle from "./modals/ModalUpdateArticle"
 import solanaLogoBlue from "../images/solana-icon-blue.png"
@@ -12,18 +13,17 @@ import "./MyArticle.css"
 
 
 export default function MyArticle(props) {
+    const [showModalImageFull, setShowModalImageFull] = useState(false)
     const [showModalRemoveArticle, setShowModalRemoveArticle] = useState(false)
     const [showModalUpdateArticle, setShowModalUpdateArticle] = useState(false)
 
     const country = countries.find(country => country.value === props.country).label
     const category = categories.find(category => category.value === props.category).label
 
-
     return (
         <div className="my-article">
-            <div className="my-article-image">
-                {/* add src here when it's easier to check that the imageURL exists */}
-                <img />
+            <div className="my-article-image-wrapper" onClick={() => setShowModalImageFull(true)}>
+                <img className="my-article-image" src={props.imageURL} />
             </div>
             <div className="my-article-info">
                 <div className="my-article-header">
@@ -69,6 +69,13 @@ export default function MyArticle(props) {
                 </div>
             </div>
 
+            {
+                showModalImageFull &&
+                <ModalImageFull
+                    setShowModalImageFull={setShowModalImageFull}
+                    imageURL={props.imageURL}
+                />
+            }
             {
                 showModalRemoveArticle &&
                 <ModalRemoveArticle
