@@ -5,6 +5,7 @@ import { getProgram } from "../../utils/solana"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
+
 export default function ModalUpdateArticle(props) {
     const { publicKey } = useAnchorWallet()
     const [updateArticleFormData, setUpdateArticleFormData] = useState(
@@ -113,6 +114,22 @@ export default function ModalUpdateArticle(props) {
                     })
                 .rpc()
             console.log(tx)
+
+            props.setMyArticles(prevMyArticles => (
+                prevMyArticles.map(
+                    myArticle => {
+                        if (myArticle.articlePubKey !== props.articlePubKey) {
+                            return myArticle
+                        }
+
+                        myArticle.data.quantity = updateArticleFormData.quantity
+                        myArticle.data.title = updateArticleFormData.title
+                        myArticle.data.description = updateArticleFormData.description
+                        myArticle.data.imageURL = updateArticleFormData.imageURL
+                        return myArticle
+                    }
+                )
+            ))
         } catch (error) {
             console.log("error: ", error)
         }
