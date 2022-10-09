@@ -27,6 +27,12 @@ export default function Navbar() {
         navigate("/")
     }
 
+    const searchIsDisabled = true ? (country.value === -1 || category.value === -1) : false
+
+    const setSearch = () => {
+        navigate("/search" + "/" + country.value + "/" + category.value)
+    }
+
     const setSellerAccountPage = () => {
         navigate("/seller-account")
     }
@@ -53,7 +59,7 @@ export default function Navbar() {
                     value={categories.find(c => c.value === category)}
                     onChange={setCategory}
                 />
-                <button className="navbar-search-btn">
+                <button disabled={searchIsDisabled} className="navbar-search-btn" onClick={setSearch}>
                     <img className="navbar-search-logo" src={search} />
                 </button>
             </>

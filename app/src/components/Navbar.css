@@ -34,7 +34,11 @@
     background-color: white;
 }
 
-.navbar-search-btn:hover {
+.navbar-search-btn:disabled {
+    background-color: darkgray;
+}
+
+.navbar-search-btn:hover:enabled {
     cursor: pointer;
     background-color: darkgray;
 }

@@ -1,10 +1,10 @@
 import create from "zustand"
 
 const useStore = create(set => ({
-    country: { value: 0, label: "United States" },
+    country: { value: -1, label: "undefined" },
     setCountry: (country) => set(state => ({ country })),
 
-    category: { value: 0, label: "Homemade" },
+    category: { value: -1, label: "undefined" },
     setCategory: (category) => set(state => ({ category })),
 
     isSeller: undefined,
