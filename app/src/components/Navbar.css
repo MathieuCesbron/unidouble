@@ -16,13 +16,31 @@
 }
 
 .select {
-    width: 170px;
+    width: 150px;
     margin-left: 20px;
-    font-size: medium;
+    font-size: 13px;
 }
 
-.select-category {
+.navbar-search-btn {
+    margin-left: 20px;
     margin-right: auto;
+    height: 36px;
+    width: 36px;
+    border: rgb(160, 160, 160) solid 1px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.navbar-search-btn:hover {
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+.navbar-search-logo {
+    height: 20px;
 }
 
 .navbar-btn:disabled {
@@ -30,12 +48,12 @@
 }
 
 .navbar-btn {
-    width: 170px;
+    width: 150px;
     height: 39px;
     margin-right: 20px;
     border-radius: 5px;
     border: lightgrey solid 1px;
-    font-size: medium;
+    font-size: 13px;
     background-color: white;
 }
 
