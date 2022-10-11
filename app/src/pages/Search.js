@@ -5,6 +5,7 @@ import bs58 from "bs58"
 
 
 import EmptySearch from "../components/EmptySearch"
+import ArticleSearch from "../components/ArticleSearch"
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 
 export default function Search() {
@@ -88,7 +89,30 @@ export default function Search() {
         if (articles.length) {
             return (
                 <div>
-                    PLACEHOLDER
+                    {
+                        articles.map(({ articlePubKey, data }) => (
+                            <ArticleSearch
+                                key={data.uuid}
+                                uuid={data.uuid}
+                                country={data.country}
+                                category={data.category}
+                                price={data.price}
+                                quantity={data.quantity}
+                                title={data.title}
+                                description={data.description}
+                                imageURL={data.image_url}
+                                buyerCount={data.buyer_count}
+                                ratingCount={data.rating_count}
+                                rating={data.rating}
+                                deliveryAddressCiphertexts={data.delivery_address_ciphertexts}
+                                reviewers={data.reviewers}
+                                quantity_bought={data.quantity_bought}
+                                buyer_diffie_public_keys={data.buyer_diffie_public_keys}
+                                buyers_salts={data.buyers_salts}
+                                buyers_ivs={data.buyers_ivs}
+                            />
+                        ))
+                    }
                 </div>
             )
         }
