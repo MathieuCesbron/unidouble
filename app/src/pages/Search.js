@@ -78,7 +78,7 @@ export default function Search() {
             setArticles(articles)
         }
         getDecodedArticles()
-    }, [])
+    }, [country, category])
 
     const ArticlesMode = () => {
         if (articles === undefined) {
