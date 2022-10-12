@@ -1,0 +1,31 @@
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+label {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.modal-field-quantity {
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+}
+
+.modal-field-price-quantity {
+    display: flex;
+}
+
+.modal-quantity-available {
+    padding: 19px 0 0 7px;
+    margin-bottom: 0px;
+}
+
+.input-delivery-address {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}

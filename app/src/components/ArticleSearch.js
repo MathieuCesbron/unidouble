@@ -5,12 +5,13 @@ import ReactTooltip from "react-tooltip"
 
 import solanaLogoBlue from "../images/solana-icon-blue.png"
 import ModalImageFull from "./modals/ModalImageFull"
+import ModalCheckoutArticle from "./modals/ModalCheckoutArticle"
 import "./ArticleSearch.css"
 
 
 export default function ArticleSearch(props) {
     const [showModalImageFull, setShowModalImageFull] = useState(false)
-    const [showModalBuyArticle, setShowModalBuyArticle] = useState(false)
+    const [showModalCheckoutArticle, setShowModalCheckoutArticle] = useState(false)
     const [showModalInfosArticle, setShowModalInfosArticle] = useState(false)
 
     return (
@@ -27,7 +28,7 @@ export default function ArticleSearch(props) {
                     <div className="article-buy">
                         <button
                             className="article-buy-btn"
-                            onClick={() => setShowModalBuyArticle(true)}>
+                            onClick={() => setShowModalCheckoutArticle(true)}>
                             CHECKOUT
                         </button>
                     </div>
@@ -67,6 +68,14 @@ export default function ArticleSearch(props) {
                 <ModalImageFull
                     setShowModalImageFull={setShowModalImageFull}
                     imageURL={props.imageURL}
+                />
+            }
+            {
+                showModalCheckoutArticle &&
+                <ModalCheckoutArticle
+                    setShowModalCheckoutArticle={setShowModalCheckoutArticle}
+                    price={String(props.price)}
+                    quantityMax={props.quantity}
                 />
             }
         </div >
