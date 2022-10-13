@@ -76,6 +76,8 @@ export default function ArticleSearch(props) {
                     setShowModalCheckoutArticle={setShowModalCheckoutArticle}
                     price={String(props.price)}
                     quantityMax={props.quantity}
+                    uuid={props.uuid}
+                    sellerAccountPublicKey={props.sellerAccountPublicKey}
                 />
             }
         </div >

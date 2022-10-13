@@ -29,3 +29,21 @@ label {
     border-radius: 5px;
     border: solid lightgray 2px;
 }
+
+.modal-encrypted-delivery-address-wrapper {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+    text-indent: 3px;
+    display: flex;
+    align-items: center;
+    margin: 4px 0 10px 0;
+    background-color: rgb(228, 225, 225);
+}
+
+.modal-encrypted-delivery-address {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

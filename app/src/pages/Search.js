@@ -8,6 +8,7 @@ import EmptySearch from "../components/EmptySearch"
 import ArticleSearch from "../components/ArticleSearch"
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 
+
 export default function Search() {
     const { country, category } = useParams()
     const [articles, setArticles] = useState(undefined)
@@ -92,6 +93,7 @@ export default function Search() {
                     {
                         articles.map(({ articlePubKey, data }) => (
                             <ArticleSearch
+                                sellerAccountPublicKey={data.seller_account_public_key}
                                 key={data.uuid}
                                 uuid={data.uuid}
                                 country={data.country}
