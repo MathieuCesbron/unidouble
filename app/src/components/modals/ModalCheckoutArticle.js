@@ -106,6 +106,7 @@ export default function ModalCheckoutArticle(props) {
                         <h3>Price: {props.price / LAMPORTS_PER_SOL}</h3>
                         <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
                     </div>
+                    <hr />
                     <div className="modal-field-price-quantity">
                         <div className="modal-field-quantity">
                             <label>Quantity</label>
