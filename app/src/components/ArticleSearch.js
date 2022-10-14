@@ -78,6 +78,7 @@ export default function ArticleSearch(props) {
                     quantityMax={props.quantity}
                     uuid={props.uuid}
                     sellerAccountPublicKey={props.sellerAccountPublicKey}
+                    articlePubKey={props.articlePubKey}
                 />
             }
         </div >

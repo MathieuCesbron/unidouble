@@ -93,6 +93,7 @@ export default function Search() {
                     {
                         articles.map(({ articlePubKey, data }) => (
                             <ArticleSearch
+                                articlePubKey={articlePubKey}
                                 sellerAccountPublicKey={data.seller_account_public_key}
                                 key={data.uuid}
                                 uuid={data.uuid}

@@ -1,18 +1,23 @@
-import { LAMPORTS_PER_SOL } from "@solana/web3.js"
+import { LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js"
 import React, { useEffect, useState } from "react"
-import { publicKey, struct, str } from "@project-serum/borsh"
+import { publicKey as publicKeyBorsh, struct, str } from "@project-serum/borsh"
+import { useWallet } from "@solana/wallet-adapter-react"
 import { AES, mode } from "crypto-js"
 
 import { curve } from "../../utils/crypto"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
-import { connection, programID } from "../../utils/solana"
+import { connection, getProgram, programID, storeCreatorPubKey } from "../../utils/solana"
 import "./ModalCheckoutArticle.css"
 import "./Modals.css"
 
 
 export default function ModalCheckoutArticle(props) {
+    const { publicKey } = useWallet()
+
     const [sellerDiffiePubKey, setSellerDiffiePubKey] = useState(undefined)
     const [encryptedDeliveryAddress, setEncryptedDeliveryAddress] = useState("")
+    const [salt, setSalt] = useState("")
+    const [iv, setIv] = useState("")
     const [priceToPay, setPriceToPay] = useState(props.price)
     const [buyArticleFormData, setBuyArticleFormData] = useState(
         {
@@ -20,6 +25,9 @@ export default function ModalCheckoutArticle(props) {
             deliveryAddress: ""
         }
     )
+
+    const buyerDiffieKeyPair = curve.genKeyPair()
+    const buyerDiffiePubKey = buyerDiffieKeyPair.getPublic().encode("hex", true)
 
     const setBuyArticleFormDataHandler = event => {
         setBuyArticleFormData(prevBuyArticleFormData => ({
@@ -56,8 +64,8 @@ export default function ModalCheckoutArticle(props) {
                 const sellerAccount = await connection.getProgramAccounts(programID, filters)
                 const decodedSellerAccount = {
                     data: struct([
-                        publicKey("seller_public_key"),
-                        publicKey("store_creator_public_key"),
+                        publicKeyBorsh("seller_public_key"),
+                        publicKeyBorsh("store_creator_public_key"),
                         str("diffie_public_key")
                     ]).decode(sellerAccount[0].account.data, 8)
                 }
@@ -74,17 +82,46 @@ export default function ModalCheckoutArticle(props) {
         if (sellerDiffiePubKey != undefined) {
             const sellerDiffieBasepoint = curve.keyFromPublic(Buffer.from(sellerDiffiePubKey, 'hex')).getPublic()
 
-            const buyerDiffieKeyPair = curve.genKeyPair()
             const sharedSecret = buyerDiffieKeyPair.derive(sellerDiffieBasepoint).toString("hex")
             const cipher = AES.encrypt(
                 buyArticleFormData.deliveryAddress,
                 sharedSecret,
                 { mode: mode.CTR }
             )
+            setSalt(cipher.salt.toString())
+            setIv(cipher.iv.toString())
+
             const cipherText = cipher.ciphertext.toString()
             setEncryptedDeliveryAddress(cipherText)
         }
     }, [buyArticleFormData.deliveryAddress])
+
+    const buyArticleOnChain = async event => {
+        event.preventDefault()
+
+        try {
+            const program = getProgram()
+            const tx = await program.methods
+                .buyArticle(
+                    buyArticleFormData.quantity,
+                    encryptedDeliveryAddress,
+                    buyerDiffiePubKey,
+                    salt,
+                    iv)
+                .accounts(
+                    {
+                        user: publicKey,
+                        seller: props.sellerAccountPublicKey,
+                        article: props.articlePubKey,
+                        storeCreator: storeCreatorPubKey,
+                        systemProgram: SystemProgram.programId
+                    })
+                .rpc()
+            console.log(tx)
+        } catch (error) {
+            console.log("error: ", error)
+        }
+    }
 
     return (
         <div className="modal-background">
@@ -101,7 +138,7 @@ export default function ModalCheckoutArticle(props) {
                 <p>Your delivery address is encrypted on the blockchain, only the seller can decrypt it.
                     You can review the article bought and get 1% cashback.
                 </p>
-                <form>
+                <form onSubmit={buyArticleOnChain}>
                     <div className="modal-price-wrapper">
                         <h3>Price: {props.price / LAMPORTS_PER_SOL}</h3>
                         <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
