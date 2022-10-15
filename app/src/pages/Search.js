@@ -6,12 +6,21 @@ import bs58 from "bs58"
 
 import EmptySearch from "../components/EmptySearch"
 import ArticleSearch from "../components/ArticleSearch"
+import PaginationSearch from "../components/PaginationSearch"
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 
 
 export default function Search() {
     const { country, category } = useParams()
-    const [articles, setArticles] = useState(undefined)
+    const [articles, setArticles] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const articlesPerPage = 5
+    const lastPostIndex = currentPage * articlesPerPage
+    const firstPostIndex = lastPostIndex - articlesPerPage
+    const currentArticles = articles.slice(firstPostIndex, lastPostIndex)
+
+    const paginate = pageNumber => setCurrentPage(pageNumber)
 
     const getArticles = async () => {
         const filters = {
@@ -71,7 +80,6 @@ export default function Search() {
         }))
 
         return decodedArticles
-
     }
 
     useEffect(() => {
@@ -91,7 +99,7 @@ export default function Search() {
             return (
                 <div>
                     {
-                        articles.map(({ articlePubKey, data }) => (
+                        currentArticles.map(({ articlePubKey, data }) => (
                             <ArticleSearch
                                 articlePubKey={articlePubKey}
                                 sellerAccountPublicKey={data.seller_account_public_key}
@@ -115,6 +123,14 @@ export default function Search() {
                                 buyers_ivs={data.buyers_ivs}
                             />
                         ))
+                    }
+                    {
+                        articles.length > articlesPerPage && <PaginationSearch
+                            articlesPerPage={articlesPerPage}
+                            totalArticles={articles.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
                     }
                 </div>
             )

@@ -1,0 +1,19 @@
+.pagination-search {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.pagination-search-number {
+    font-size: 30px;
+    text-align: center;
+}
+
+.pagination-search-number:hover {
+    cursor: pointer;
+    background-color: rgb(155, 155, 155);
+}
+
+.pagination-search-a {
+    padding: 6px;
+}
