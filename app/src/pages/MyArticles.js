@@ -14,6 +14,7 @@ export default function MyArticles() {
     const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
 
+    const [loading, setLoading] = useState(true)
     const [myArticles, setMyArticles] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -89,12 +90,13 @@ export default function MyArticles() {
         const getMyDecodedArticles = async () => {
             const myArticles = await getMyArticles()
             setMyArticles(myArticles)
+            setLoading(false)
         }
         getMyDecodedArticles()
     }, [])
 
     const MyArticlesMode = () => {
-        if (myArticles == undefined) {
+        if (loading) {
             return
         }
 

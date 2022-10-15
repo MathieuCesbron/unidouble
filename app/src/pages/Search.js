@@ -12,6 +12,7 @@ import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 
 export default function Search() {
     const { country, category } = useParams()
+    const [loading, setLoading] = useState(true)
     const [articles, setArticles] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -86,12 +87,13 @@ export default function Search() {
         const getDecodedArticles = async () => {
             const articles = await getArticles()
             setArticles(articles)
+            setLoading(false)
         }
         getDecodedArticles()
     }, [country, category])
 
     const ArticlesMode = () => {
-        if (articles === undefined) {
+        if (loading) {
             return
         }
 
