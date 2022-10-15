@@ -5,13 +5,24 @@ import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 import MyArticle from "../components/MyArticle"
 import NoArticles from "../components/NoArticles"
+import PaginationSearch from "../components/PaginationSearch"
 import { useNavigate } from "react-router-dom"
 import "./MyArticles.css"
+
 
 export default function MyArticles() {
     const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
-    const [myArticles, setMyArticles] = useState(undefined)
+
+    const [myArticles, setMyArticles] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const myArticlesPerPage = 5
+    const lastPostIndex = currentPage * myArticlesPerPage
+    const firstPostIndex = lastPostIndex - myArticlesPerPage
+    const currentMyArticles = myArticles.slice(firstPostIndex, lastPostIndex)
+
+    const paginate = pageNumber => setCurrentPage(pageNumber)
 
     const getMyArticles = async () => {
         const filters = {
@@ -90,7 +101,7 @@ export default function MyArticles() {
         if (myArticles.length) {
             return <div>
                 {
-                    myArticles.map(({ articlePubKey, data }) => (
+                    currentMyArticles.map(({ articlePubKey, data }) => (
                         <MyArticle
                             articlePubKey={articlePubKey}
                             setMyArticles={setMyArticles}
@@ -115,6 +126,15 @@ export default function MyArticles() {
                             buyers_ivs={data.buyers_ivs}
                         />
                     ))
+                }
+                {
+                    myArticles.length > myArticlesPerPage &&
+                    <PaginationSearch
+                        articlesPerPage={myArticlesPerPage}
+                        totalArticles={myArticles.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
                 }
             </div>
         }
