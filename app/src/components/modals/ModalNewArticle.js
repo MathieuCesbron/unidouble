@@ -342,6 +342,11 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                             maxLength="750"
                         ></textarea>
                     </div>
+                    <hr />
+                    <div className="modal-price-wrapper">
+                        <h3>Rent reserve: 0.07049</h3>
+                        <img className="modal-solana-logo-blue" src={solanaIconBlue} />
+                    </div>
                     {newArticleFormData.error && <p className="error">{newArticleFormData.error}</p>}
                     <button className="modal-btn" type="submit">
                         Validate transaction on wallet
