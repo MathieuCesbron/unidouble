@@ -67,7 +67,11 @@
     width: 130px;
 }
 
-.article-buy-btn:hover {
+.article-buy-btn:disabled {
+    background-color: darkgray;
+}
+
+.article-buy-btn:hover:enabled {
     cursor: pointer;
     background-color: rgb(0, 221, 0);
 }

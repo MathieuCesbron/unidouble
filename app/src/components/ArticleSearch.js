@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { LAMPORTS_PER_SOL } from "@solana/web3.js"
 import ReactStars from 'react-stars'
 import ReactTooltip from "react-tooltip"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 import solanaLogoBlue from "../images/solana-icon-blue.png"
 import ModalImageFull from "./modals/ModalImageFull"
@@ -10,6 +11,8 @@ import "./ArticleSearch.css"
 
 
 export default function ArticleSearch(props) {
+    const { connected } = useWallet()
+
     const [showModalImageFull, setShowModalImageFull] = useState(false)
     const [showModalCheckoutArticle, setShowModalCheckoutArticle] = useState(false)
     const [showModalInfosArticle, setShowModalInfosArticle] = useState(false)
@@ -27,6 +30,7 @@ export default function ArticleSearch(props) {
                     </div>
                     <div className="article-buy">
                         <button
+                            disabled={!connected}
                             className="article-buy-btn"
                             onClick={() => setShowModalCheckoutArticle(true)}>
                             CHECKOUT
