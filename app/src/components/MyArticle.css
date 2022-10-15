@@ -47,6 +47,9 @@
     margin-top: 5px;
     margin-bottom: 0px;
     font-size: larger;
+    max-width: 450px;
+    max-height: 50px;
+    overflow: hidden;
 }
 
 .my-article-subtitle {
