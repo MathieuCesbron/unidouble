@@ -113,6 +113,7 @@
     max-height: 43px;
     font-size: 13px;
     overflow: hidden;
+    text-align: justify;
 }
 
 .article-infos-btn {

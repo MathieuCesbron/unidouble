@@ -7,6 +7,7 @@ import { useWallet } from "@solana/wallet-adapter-react"
 import solanaLogoBlue from "../images/solana-icon-blue.png"
 import ModalImageFull from "./modals/ModalImageFull"
 import ModalCheckoutArticle from "./modals/ModalCheckoutArticle"
+import ModalInfosArticle from "./modals/ModalInfosArticle"
 import "./ArticleSearch.css"
 
 
@@ -61,7 +62,7 @@ export default function ArticleSearch(props) {
                     <p className="article-description">{props.description}</p>
                     <button
                         className="article-infos-btn"
-                        onClick={() => setShowModalInfosArticle}>
+                        onClick={() => setShowModalInfosArticle(true)}>
                         INFOS
                     </button>
                 </div>
@@ -83,6 +84,15 @@ export default function ArticleSearch(props) {
                     uuid={props.uuid}
                     sellerAccountPublicKey={props.sellerAccountPublicKey}
                     articlePubKey={props.articlePubKey}
+                />
+            }
+            {
+                showModalInfosArticle &&
+                <ModalInfosArticle
+                    setShowModalInfosArticle={setShowModalInfosArticle}
+                    uuid={props.uuid}
+                    title={props.title}
+                    description={props.description}
                 />
             }
         </div >
