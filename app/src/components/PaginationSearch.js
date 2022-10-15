@@ -12,6 +12,11 @@ export default function PaginationSearch(props) {
 
     const style = number => number == props.currentPage ? { backgroundColor: "lightgrey" } : {}
 
+    const changePage = number => {
+        props.paginate(number)
+        document.body.scrollTop = 0
+    }
+
     return (
         <div>
             <ul className="pagination-search">
@@ -20,7 +25,7 @@ export default function PaginationSearch(props) {
                         key={number}
                         className="pagination-search-number"
                         style={style(number)}>
-                        <a onClick={() => props.paginate(number)} className="pagination-search-a">
+                        <a onClick={() => changePage(number)} className="pagination-search-a">
                             {number}
                         </a>
                     </li>
