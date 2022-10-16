@@ -1,9 +1,9 @@
 import React, { useState } from "react"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 import { getProgram, storePubKey } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import "./Modals.css"
-import { useWallet } from "@solana/wallet-adapter-react"
 
 
 export default function ModalRemoveArticle(props) {

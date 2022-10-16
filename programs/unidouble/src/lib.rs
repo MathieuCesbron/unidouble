@@ -313,6 +313,8 @@ pub mod unidouble {
         article.buyer_salts.remove(index);
         article.buyer_ivs.remove(index);
 
+        // TODO: update article.rating here
+
         Ok(())
     }
 }

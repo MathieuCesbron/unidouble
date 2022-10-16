@@ -4,6 +4,7 @@ import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 import EmptyPurchases from "../components/EmptyPurchases"
+import MyPurchase from "../components/MyPurchase"
 
 
 export default function MyPurchases() {
@@ -85,6 +86,34 @@ export default function MyPurchases() {
         if (purchases.length) {
             return (
                 <div>
+                    {
+                        purchases.map(({ articlePubKey, data }) => (
+                            <MyPurchase
+                                setPurchases={setPurchases}
+
+                                articlePubKey={articlePubKey}
+                                sellerAccountPublicKey={data.seller_account_public_key}
+                                key={data.uuid}
+                                uuid={data.uuid}
+                                country={data.country}
+                                category={data.category}
+                                price={data.price}
+                                quantity={data.quantity}
+                                title={data.title}
+                                description={data.description}
+                                imageURL={data.image_url}
+                                buyerCount={data.buyer_count}
+                                ratingCount={data.rating_count}
+                                rating={data.rating}
+                                deliveryAddressCiphertexts={data.delivery_address_ciphertexts}
+                                reviewers={data.reviewers}
+                                quantity_bought={data.quantity_bought}
+                                buyer_diffie_public_keys={data.buyer_diffie_public_keys}
+                                buyers_salts={data.buyers_salts}
+                                buyers_ivs={data.buyers_ivs}
+                            />
+                        ))
+                    }
                 </div>
             )
         }
