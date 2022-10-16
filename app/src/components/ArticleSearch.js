@@ -36,10 +36,10 @@ export default function ArticleSearch(props) {
                     </div>
                     <div className="article-buy">
                         <button
-                            disabled={!connected}
+                            disabled={!connected || !props.quantity}
                             className="article-buy-btn"
                             onClick={() => setShowModalCheckoutArticle(true)}>
-                            CHECKOUT
+                            {props.quantity ? "CHECKOUT" : "NO STOCK"}
                         </button>
                     </div>
                 </div>
