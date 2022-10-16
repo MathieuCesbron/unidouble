@@ -18,9 +18,14 @@ export default function ArticleSearch(props) {
     const [showModalCheckoutArticle, setShowModalCheckoutArticle] = useState(false)
     const [showModalInfosArticle, setShowModalInfosArticle] = useState(false)
 
+    const [imageLoaded, setImageLoaded] = useState(false)
+
     return (
         <div className="article">
-            <div className="article-image-wrapper" onClick={() => setShowModalImageFull(true)}>
+            <div className="article-image-wrapper"
+                onClick={() => imageLoaded && setShowModalImageFull(true)}
+                onLoad={() => setImageLoaded(true)}
+            >
                 <img className="article-image" src={props.imageURL} />
             </div>
             <div className="article-info">

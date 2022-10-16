@@ -20,9 +20,14 @@ export default function MyArticle(props) {
     const country = countries.find(country => country.value === props.country).label
     const category = categories.find(category => category.value === props.category).label
 
+    const [imageLoaded, setImageLoaded] = useState(false)
+
     return (
         <div className="my-article">
-            <div className="my-article-image-wrapper" onClick={() => setShowModalImageFull(true)}>
+            <div className="my-article-image-wrapper"
+                onClick={() => imageLoaded && setShowModalImageFull(true)}
+                onLoad={() => setImageLoaded(true)}
+            >
                 <img className="my-article-image" src={props.imageURL} />
             </div>
             <div className="my-article-info">
