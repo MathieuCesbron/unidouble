@@ -3,6 +3,7 @@ import { useWallet } from "@solana/wallet-adapter-react"
 import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from "@project-serum/borsh"
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
+import EmptyPurchases from "../components/EmptyPurchases"
 
 
 export default function MyPurchases() {
@@ -71,15 +72,28 @@ export default function MyPurchases() {
         const getDecodedPurchases = async () => {
             const purchases = await getPurchases()
             setPurchases(purchases)
-            console.log(purchases)
             setLoading(false)
         }
         getDecodedPurchases()
     }, [publicKey])
 
+    const PurchasesMode = () => {
+        if (loading) {
+            return
+        }
+
+        if (purchases.length) {
+            return (
+                <div>
+                </div>
+            )
+        }
+        return <EmptyPurchases />
+    }
+
     return (
         <div>
-            PLACEHOLDER
+            <PurchasesMode />
         </div>
     )
 }
