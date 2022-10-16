@@ -5,7 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react"
 import { programID, connection } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
 import SellerAccountOptions from "../components/SellerAccountOptions"
-import useStore from "../store";
+import useStore from "../store"
 
 
 export default function SellerAccount() {
@@ -53,9 +53,7 @@ export default function SellerAccount() {
     const SellerAccountMode = () => {
         switch (isSeller) {
             case undefined:
-                return (
-                    <h1>Loading in progress</h1>
-                )
+                return
             case false:
                 return (
                     <CreateSellerAccount />
