@@ -1,3 +1,4 @@
 .modal-infos-description {
     text-align: justify;
+    overflow: hidden;
 }

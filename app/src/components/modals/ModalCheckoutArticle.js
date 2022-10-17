@@ -56,6 +56,12 @@ export default function ModalCheckoutArticle(props) {
                             offset: 8,
                             bytes: props.sellerAccountPublicKey
                         }
+                    },
+                    {
+                        memcmp: {
+                            offset: 8 + 32,
+                            bytes: storeCreatorPubKey
+                        }
                     }
                 ]
             }
@@ -118,6 +124,7 @@ export default function ModalCheckoutArticle(props) {
                     })
                 .rpc()
             console.log(tx)
+            props.setShowModalCheckoutArticle(false)
         } catch (error) {
             console.log("error: ", error)
         }
