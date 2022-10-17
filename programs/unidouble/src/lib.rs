@@ -313,7 +313,10 @@ pub mod unidouble {
         article.buyer_salts.remove(index);
         article.buyer_ivs.remove(index);
 
-        // TODO: update article.rating here
+        article.rating = (article.rating * article.rating_count as f32 + rating as f32)
+            / (article.rating_count as f32 + 1.0);
+        article.rating_count += 1;
+        msg!("{}", article.rating);
 
         Ok(())
     }

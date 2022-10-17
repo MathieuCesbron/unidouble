@@ -60,6 +60,7 @@ export default function ModalReviewArticle(props) {
                         className="article-stars"
                         count={5}
                         value={rating}
+                        half={false}
                         onChange={newRating => setRating(newRating)}
                         size={35}
                         color2={'#ffd700'}
