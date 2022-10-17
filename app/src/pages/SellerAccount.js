@@ -48,7 +48,7 @@ export default function SellerAccount() {
         }
         getSellerAccount()
 
-    }, [connected])
+    }, [connected, publicKey])
 
     const SellerAccountMode = () => {
         switch (isSeller) {
