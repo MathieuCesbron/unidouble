@@ -48,7 +48,7 @@ export default function ArticleSearch(props) {
                         <h3 className="article-price">{String(props.price) / LAMPORTS_PER_SOL}</h3>
                         <img className="article-solana-logo-blue" src={solanaLogoBlue} />
                     </div>
-                    <div data-tip={props.rating}>
+                    <div data-tip={props.rating.toFixed(2)}>
                         <ReactStars
                             data-tip="hello world"
                             className="article-stars"
