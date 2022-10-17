@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from "@solana/wallet-adapter-react"
 
-import { programID, connection } from "../utils/solana"
+import { programID, connection, storeCreatorPubKey } from "../utils/solana"
 import CreateSellerAccount from "../components/CreateSellerAccount"
 import SellerAccountOptions from "../components/SellerAccountOptions"
 import useStore from "../store"
@@ -32,6 +32,12 @@ export default function SellerAccount() {
                     memcmp: {
                         offset: 8,
                         bytes: publicKey
+                    }
+                },
+                {
+                    memcmp: {
+                        offset: 8 + 32,
+                        bytes: storeCreatorPubKey
                     }
                 }
             ]
