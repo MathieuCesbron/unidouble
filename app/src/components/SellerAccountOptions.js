@@ -20,6 +20,10 @@ export default function SellerAccountOptions() {
         setShowModalNewArticle(true)
     }
 
+    const salesHandler = () => {
+        navigate("sales")
+    }
+
     const myArticlesHandler = () => {
         navigate("my-articles")
     }
@@ -34,7 +38,7 @@ export default function SellerAccountOptions() {
                 <img src={newArticleLogo} className="grid-btn-logo" />
                 <b className="grid-btn-text1">New article</b>
             </button>
-            <button className="grid-btn btn2">
+            <button className="grid-btn btn2" onClick={salesHandler}>
                 <img src={salesLogo} className="grid-btn-logo" />
                 <b className="grid-btn-text2">Sales</b>
             </button>

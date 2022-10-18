@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar"
 import Home from "./pages/Home"
 import Search from "./pages/Search"
 import SellerAccount from "./pages/SellerAccount"
+import Sales from "./pages/Sales"
 import MyArticles from "./pages/MyArticles"
 import MyPurchases from "./pages/MyPurchases"
 import Whitepaper from "./pages/Whitepaper"
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search/:country/:category" element={<Search />} />
           <Route path="/seller-account" element={<SellerAccount />} />
+          <Route path="/seller-account/sales" element={<Sales />} />
           <Route path="/seller-account/my-articles" element={<MyArticles />} />
           <Route path="/my-purchases" element={<MyPurchases />} />
           <Route path="/whitepaper" element={<Whitepaper />} />
