@@ -93,7 +93,7 @@ export default function MyArticles() {
             setLoading(false)
         }
         getMyDecodedArticles()
-    }, [])
+    }, [publicKey])
 
     const MyArticlesMode = () => {
         if (loading) {

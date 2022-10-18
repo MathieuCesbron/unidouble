@@ -92,7 +92,7 @@ export default function Sales() {
             setLoading(false)
         }
         getMyDecodedArticles()
-    }, [publicKey, connected])
+    }, [publicKey])
 
     const SalesMode = () => {
         if (loading) {
