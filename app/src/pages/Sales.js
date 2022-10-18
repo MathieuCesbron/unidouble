@@ -4,8 +4,9 @@ import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from
 import { useNavigate } from "react-router-dom"
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
-import "./Sales.css"
+import ArticleSales from "../components/ArticleSales"
 import NoArticles from "../components/NoArticles"
+import "./Sales.css"
 
 
 export default function Sales() {
@@ -81,7 +82,6 @@ export default function Sales() {
 
         const getMyDecodedArticles = async () => {
             const myArticles = await getMyArticles()
-            console.log(myArticles)
             setMyArticles(myArticles)
 
             let total = 0
@@ -103,6 +103,34 @@ export default function Sales() {
             return (
                 <>
                     <h2>Number of buyers: {totalBuyers}</h2>
+                    {
+                        myArticles.map(({ articlePubKey, data }) => (
+                            <ArticleSales
+                                articlePubKey={articlePubKey}
+                                setMyArticles={setMyArticles}
+
+                                key={data.uuid}
+                                uuid={data.uuid}
+                                country={data.country}
+                                category={data.category}
+                                price={data.price}
+                                quantity={data.quantity}
+                                title={data.title}
+                                description={data.description}
+                                imageURL={data.image_url}
+                                buyerCount={data.buyer_count}
+                                ratingCount={data.rating_count}
+                                rating={data.rating}
+                                deliveryAddressCiphertexts={data.delivery_address_ciphertexts}
+                                reviewers={data.reviewers}
+                                quantity_bought={data.quantity_bought}
+                                buyer_diffie_public_keys={data.buyer_diffie_public_keys}
+                                buyers_salts={data.buyers_salts}
+                                buyers_ivs={data.buyers_ivs}
+                            />
+                        ))
+
+                    }
                 </>
             )
         }
