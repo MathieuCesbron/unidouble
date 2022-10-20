@@ -102,7 +102,7 @@ export default function Sales() {
         if (myArticles.length) {
             return (
                 <>
-                    <h2>Total number of buyers: {totalBuyers}</h2>
+                    <h2 className="sales-total">Total number of buyers: {totalBuyers}</h2>
                     {
                         myArticles.map(({ articlePubKey, data }) => (
                             <ArticleSales
