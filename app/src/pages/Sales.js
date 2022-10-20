@@ -102,7 +102,7 @@ export default function Sales() {
         if (myArticles.length) {
             return (
                 <>
-                    <h2>Number of buyers: {totalBuyers}</h2>
+                    <h2>Total number of buyers: {totalBuyers}</h2>
                     {
                         myArticles.map(({ articlePubKey, data }) => (
                             <ArticleSales
@@ -129,7 +129,6 @@ export default function Sales() {
                                 buyers_ivs={data.buyers_ivs}
                             />
                         ))
-
                     }
                 </>
             )
