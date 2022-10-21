@@ -12,7 +12,7 @@ import useStore from "../../store"
 
 const sellerDiffieKeyPair = curve.genKeyPair()
 const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
-const sellerDiffiePrivKey = sellerDiffieKeyPair.getPrivate().toString()
+const sellerDiffiePrivKey = sellerDiffieKeyPair.getPrivate().toString("hex")
 
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
     const setIsSeller = useStore(state => state.setIsSeller)

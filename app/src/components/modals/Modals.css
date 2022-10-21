@@ -74,3 +74,25 @@
     cursor: pointer;
     background-color: rgb(0, 221, 0);
 }
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+label {
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.input-private-key {
+    height: 25px;
+    border-radius: 5px;
+    border: solid lightgray 2px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}

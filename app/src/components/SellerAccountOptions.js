@@ -6,14 +6,16 @@ import salesLogo from "../images/sales-logo.png"
 import myArticlesLogo from "../images/my-articles-logo.png"
 import deleteSellerAccount from "../images/delete-seller-account-logo.png"
 import ModalNewArticle from "./modals/ModalNewArticle"
+import ModalGetSales from "./modals/ModalGetSales"
 import ModalDeleteSellerAccount from "./modals/ModalDeleteSellerAccount"
 import "./SellerAccountOptions.css"
 
 
-export default function SellerAccountOptions() {
+export default function SellerAccountOptions(props) {
     const navigate = useNavigate()
 
     const [showModalNewArticle, setShowModalNewArticle] = useState(false)
+    const [showModalGetSales, setShowModalGetSales] = useState(false)
     const [showModalDeleteSellerAccount, setShowModalDeleteSellerAccount] = useState(false)
 
     const newArticleHandler = () => {
@@ -21,7 +23,7 @@ export default function SellerAccountOptions() {
     }
 
     const salesHandler = () => {
-        navigate("sales")
+        setShowModalGetSales(true)
     }
 
     const myArticlesHandler = () => {
@@ -53,6 +55,12 @@ export default function SellerAccountOptions() {
 
             {showModalNewArticle &&
                 <ModalNewArticle setShowModalNewArticle={setShowModalNewArticle} />}
+
+            {showModalGetSales &&
+                <ModalGetSales
+                    setShowModalGetSales={setShowModalGetSales}
+                    sellerDiffiePubKey={props.sellerDiffiePubKey}
+                />}
 
             {showModalDeleteSellerAccount &&
                 <ModalDeleteSellerAccount setShowModalDeleteSellerAccount={setShowModalDeleteSellerAccount} />}
