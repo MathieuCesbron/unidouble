@@ -34,7 +34,7 @@ export default function ArticleSales(props) {
                         <p className="article-sales-subtitle">{country} / {category} / #{props.uuid}</p>
                     </div>
                     <div className="article-sales-sales">
-                        <button
+                        <button disabled={!props.deliveryAddressCiphertexts.length}
                             onClick={() => setShowModalSales(true)}
                             className="article-sales-sales-btn">
                             SALES
