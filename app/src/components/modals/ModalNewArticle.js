@@ -8,11 +8,12 @@ import { countries } from "../../config/countries"
 import { categories } from "../../config/categories"
 import solanaIconBlue from "../../images/solana-icon-blue.png"
 import { programID, storePubKey, connection, getProgram } from "../../utils/solana"
+import { curve } from "../../utils/crypto"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
 
-export default function ModalNewArticle({ setShowModalNewArticle }) {
+export default function ModalNewArticle(props) {
     const { publicKey, signAllTransactions } = useAnchorWallet()
     const [newArticleFormData, setNewArticleFormData] = useState(
         {
@@ -47,6 +48,16 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
             ...prevNewArticleFormData,
             [event.target.name]: event.target.value
         }))
+    }
+
+    const checkPrivateKey = () => {
+        const keyPair = curve.keyFromPrivate(newArticleFormData.privateKey)
+        const diffePubKey = keyPair.getPublic().encode("hex")
+
+        if (diffePubKey !== props.sellerDiffiePubKey) {
+            return "The Private key is incorrect"
+        }
+        return ""
     }
 
     const submitNewArticle = async event => {
@@ -160,6 +171,20 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
             }))
         }
 
+        const errorPrivateKeyIncorrect = checkPrivateKey()
+        if (errorPrivateKeyIncorrect) {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: errorPrivateKeyIncorrect
+            }))
+            return
+        } else {
+            setNewArticleFormData(prevNewArticleFormData => ({
+                ...prevNewArticleFormData,
+                error: ""
+            }))
+        }
+
         const uuid = Math.random().toString(36).slice(-6)
         const [article] = await PublicKey.findProgramAddress(
             [utils.bytes.utf8.encode(uuid)],
@@ -225,7 +250,7 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                 await connection.confirmTransaction(tx)
                 console.log(tx)
             }
-            setShowModalNewArticle(false)
+            props.setShowModalNewArticle(false)
         } catch (error) {
             console.log("error: ", error)
         }
@@ -237,7 +262,7 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                 <div className="modal-exit">
                     <button
                         className="modal-exit-btn"
-                        onClick={() => setShowModalNewArticle(false)}>
+                        onClick={() => props.setShowModalNewArticle(false)}>
                         EXIT</button>
                 </div>
                 <h2>New article</h2>

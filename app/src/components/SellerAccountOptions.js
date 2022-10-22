@@ -54,7 +54,10 @@ export default function SellerAccountOptions(props) {
             </button>
 
             {showModalNewArticle &&
-                <ModalNewArticle setShowModalNewArticle={setShowModalNewArticle} />}
+                <ModalNewArticle
+                    setShowModalNewArticle={setShowModalNewArticle}
+                    sellerDiffiePubKey={props.sellerDiffiePubKey}
+                />}
 
             {showModalGetSales &&
                 <ModalGetSales
