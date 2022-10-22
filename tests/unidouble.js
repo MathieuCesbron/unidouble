@@ -40,7 +40,7 @@ describe("unidouble", () => {
     const seller = await generateUser(2, provider)
     // seller must remember the private key
     const sellerDiffieKeyPair = curve.genKeyPair()
-    const sellerDiffiePublicKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
+    const sellerDiffiePublicKey = sellerDiffieKeyPair.getPublic().encode("hex")
 
     const [sellerAccount] = await anchor.web3.PublicKey.findProgramAddress(
       [seller.publicKey.toBuffer()],
@@ -63,7 +63,7 @@ describe("unidouble", () => {
 
     console.log("update diffie seller account")
     const sellerDiffieKeyPairUpdate = curve.genKeyPair()
-    const sellerDiffiePublicKeyUpdate = sellerDiffieKeyPairUpdate.getPublic().encode("hex", true)
+    const sellerDiffiePublicKeyUpdate = sellerDiffieKeyPairUpdate.getPublic().encode("hex")
 
     const txUpdateDiffieSellerAccount = await program.methods
       .updateDiffieSellerAccount(sellerDiffiePublicKeyUpdate)
@@ -154,7 +154,7 @@ describe("unidouble", () => {
       { mode: cryptoJS.mode.CTR }
     )
     const cipherText = cipher.ciphertext.toString()
-    const buyerDiffiePublicKey = buyerDiffieKeyPair.getPublic().encode("hex", true)
+    const buyerDiffiePublicKey = buyerDiffieKeyPair.getPublic().encode("hex")
     const salt = cipher.salt.toString()
     const iv = cipher.iv.toString()
 

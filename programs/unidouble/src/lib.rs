@@ -4,7 +4,7 @@ use anchor_lang::solana_program::program::invoke;
 
 pub mod error;
 
-declare_id!("C4TX181DDiFWoshCY3S8yMu6agRnz3cov2tQ87XsdimJ");
+declare_id!("J47c2XTaNBzW9d6KvUZth71FzsT9KcKa8bmsZXZVnxyD");
 
 #[program]
 pub mod unidouble {
