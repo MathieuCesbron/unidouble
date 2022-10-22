@@ -1,8 +1,8 @@
 import { PublicKey } from "@solana/web3.js"
 import { useWallet } from "@solana/wallet-adapter-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-import { getProgram, programID } from "../../utils/solana"
+import { getProgram, programID, storeCreatorPubKey, connection } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import useStore from "../../store"
 import "./Modals.css"
@@ -11,7 +11,49 @@ import "./Modals.css"
 export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccount }) {
     const setIsSeller = useStore(state => state.setIsSeller)
     const { publicKey } = useWallet()
+
     const [isSure, setIsSure] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState("")
+    const [noArticle, setNoArticle] = useState(false)
+
+    const checkNoArticle = async () => {
+        const filters = {
+            filters: [
+                {
+                    dataSize: 10000
+                },
+                {
+                    memcmp: {
+                        offset: 8,
+                        bytes: publicKey
+                    }
+                },
+                {
+                    memcmp: {
+                        offset: 8 + 32,
+                        bytes: storeCreatorPubKey
+                    }
+                }
+            ]
+        }
+
+        const encodedArticles = await connection.getProgramAccounts(
+            programID,
+            filters
+        )
+
+        if (!encodedArticles.length) {
+            setNoArticle(true)
+        } else {
+            setError("You still have articles, remove them before deleting your account")
+        }
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        checkNoArticle()
+    })
 
     const deleteSellerAccountOnChain = async () => {
         const [sellerAccount] = await PublicKey.findProgramAddress(
@@ -63,7 +105,8 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                     <h3>Gain: 0.00187</h3>
                     <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
                 </div>
-                <button disabled={!isSure} className="modal-btn" onClick={deleteSellerAccountOnChain}>
+                {error && !loading && isSure && <p className="error">{error}</p>}
+                <button disabled={!isSure || !noArticle} className="modal-btn" onClick={deleteSellerAccountOnChain}>
                     Validate transaction on wallet
                 </button>
             </div>
