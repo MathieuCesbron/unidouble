@@ -5,6 +5,8 @@ import { curve } from "../../utils/crypto"
 import "./Modals.css"
 
 export default function ModalGetSales(props) {
+    const navigate = useNavigate()
+
     const [privateKey, setPrivateKey] = useState("")
     const [error, setError] = useState("")
 
@@ -26,8 +28,7 @@ export default function ModalGetSales(props) {
         } else {
             setError("")
         }
-
-        console.log("success")
+        navigate("/seller-account/sales")
     }
 
     return (
