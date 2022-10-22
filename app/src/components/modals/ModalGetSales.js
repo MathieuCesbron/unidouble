@@ -10,15 +10,15 @@ export default function ModalGetSales(props) {
 
     const submitPrivateKey = async (event) => {
         event.preventDefault()
-        if (privateKey.length != 62) {
-            setError("The Private key should be exactly 62 characters")
+        if (privateKey.length != 63) {
+            setError("The Private key should be exactly 63 characters")
             return
         } else {
             setError("")
         }
 
         const keyPair = curve.keyFromPrivate(privateKey)
-        const diffiePubKey = keyPair.getPublic().encode("hex", true)
+        const diffiePubKey = keyPair.getPublic().encode("hex")
 
         if (diffiePubKey !== props.sellerDiffiePubKey) {
             setError("The Private key is incorrect")
@@ -51,8 +51,8 @@ export default function ModalGetSales(props) {
                             name="privateKey"
                             value={privateKey}
                             onChange={event => setPrivateKey(event.target.value)}
-                            minLength={62}
-                            maxLength={62}>
+                            minLength={63}
+                            maxLength={63}>
                         </input>
                     </div>
                     {error && <p className="error">{error}</p>}

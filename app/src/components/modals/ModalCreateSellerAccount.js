@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useWallet } from "@solana/wallet-adapter-react"
 import { PublicKey, SystemProgram } from "@solana/web3.js"
 
@@ -10,14 +10,15 @@ import "./ModalCreateSellerAccount.css"
 import useStore from "../../store"
 
 
-const sellerDiffieKeyPair = curve.genKeyPair()
-const sellerDiffiePubKey = sellerDiffieKeyPair.getPublic().encode("hex", true)
-const sellerDiffiePrivKey = sellerDiffieKeyPair.getPrivate().toString("hex")
 
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
     const setIsSeller = useStore(state => state.setIsSeller)
     const { publicKey } = useWallet()
     const [isCopied, setIsCopied] = useState(false)
+
+    const sellerDiffieKeyPair = useMemo(() => curve.genKeyPair(), [])
+    const sellerDiffiePubKey = useMemo(() => sellerDiffieKeyPair.getPublic().encode("hex"), [])
+    const sellerDiffiePrivKey = useMemo(() => sellerDiffieKeyPair.getPrivate().toString("hex"), [])
 
     const createSellerAccountOnChain = async () => {
         const [sellerAccount] = await PublicKey.findProgramAddress(

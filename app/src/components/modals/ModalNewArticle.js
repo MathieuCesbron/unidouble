@@ -77,10 +77,10 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
             }))
         }
 
-        if (newArticleFormData.privateKey.length != 76) {
+        if (newArticleFormData.privateKey.length != 63) {
             setNewArticleFormData(prevNewArticleFormData => ({
                 ...prevNewArticleFormData,
-                error: "The Private key should be exactly 76 characters"
+                error: "The Private key should be exactly 63 characters"
             }))
             return
         } else {
@@ -271,8 +271,8 @@ export default function ModalNewArticle({ setShowModalNewArticle }) {
                             name="privateKey"
                             value={newArticleFormData.privateKey}
                             onChange={setNewArticleFormDataHandler}
-                            minLength={76}
-                            maxLength={76}>
+                            minLength={63}
+                            maxLength={63}>
                         </input>
                     </div>
                     <div className="modal-field-price-quantity">
