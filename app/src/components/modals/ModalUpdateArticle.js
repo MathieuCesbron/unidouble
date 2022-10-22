@@ -2,12 +2,16 @@ import React, { useState } from "react"
 import { useAnchorWallet } from "@solana/wallet-adapter-react"
 
 import { getProgram } from "../../utils/solana"
+import { curve } from "../../utils/crypto"
+import useStore from "../../store"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
 
 export default function ModalUpdateArticle(props) {
     const { publicKey } = useAnchorWallet()
+    const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+
     const [updateArticleFormData, setUpdateArticleFormData] = useState(
         {
             privateKey: "",
@@ -24,6 +28,16 @@ export default function ModalUpdateArticle(props) {
             ...prevUpdateArticleFormData,
             [event.target.name]: event.target.value
         }))
+    }
+
+    const checkPrivateKey = () => {
+        const keyPair = curve.keyFromPrivate(updateArticleFormData.privateKey)
+        const diffePubKey = keyPair.getPublic().encode("hex")
+
+        if (diffePubKey !== sellerDiffiePubKey) {
+            return "The Private key is incorrect"
+        }
+        return ""
     }
 
     const submitUpdateArticle = async event => {
@@ -89,6 +103,20 @@ export default function ModalUpdateArticle(props) {
             setUpdateArticleFormData(prevUpdateArticleFormData => ({
                 ...prevUpdateArticleFormData,
                 error: "The description should be between 50 and 750 characters"
+            }))
+            return
+        } else {
+            setUpdateArticleFormData(prevUpdateArticleFormData => ({
+                ...prevUpdateArticleFormData,
+                error: ""
+            }))
+        }
+
+        const errorPrivateKeyIncorrect = checkPrivateKey()
+        if (errorPrivateKeyIncorrect) {
+            setUpdateArticleFormData(prevUpdateArticleFormData => ({
+                ...prevUpdateArticleFormData,
+                error: errorPrivateKeyIncorrect
             }))
             return
         } else {

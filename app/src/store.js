@@ -8,7 +8,10 @@ const useStore = create(set => ({
     setCategory: (category) => set(state => ({ category })),
 
     isSeller: undefined,
-    setIsSeller: (isSeller) => set(state => ({ isSeller }))
+    setIsSeller: (isSeller) => set(state => ({ isSeller })),
+
+    sellerDiffiePubKey: undefined,
+    setSellerDiffiePubKey: (sellerDiffiePubKey) => set(state => ({ sellerDiffiePubKey }))
 }))
 
 export default useStore

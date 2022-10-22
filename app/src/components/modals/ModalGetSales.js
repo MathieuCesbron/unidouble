@@ -2,9 +2,11 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { curve } from "../../utils/crypto"
+import useStore from "../../store"
 import "./Modals.css"
 
 export default function ModalGetSales(props) {
+    const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
     const navigate = useNavigate()
 
     const [privateKey, setPrivateKey] = useState("")
@@ -22,7 +24,7 @@ export default function ModalGetSales(props) {
         const keyPair = curve.keyFromPrivate(privateKey)
         const diffiePubKey = keyPair.getPublic().encode("hex")
 
-        if (diffiePubKey !== props.sellerDiffiePubKey) {
+        if (diffiePubKey !== sellerDiffiePubKey) {
             setError("The Private key is incorrect")
             return
         } else {

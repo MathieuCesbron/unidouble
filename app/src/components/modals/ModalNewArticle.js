@@ -9,12 +9,15 @@ import { categories } from "../../config/categories"
 import solanaIconBlue from "../../images/solana-icon-blue.png"
 import { programID, storePubKey, connection, getProgram } from "../../utils/solana"
 import { curve } from "../../utils/crypto"
+import useStore from "../../store"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
 
 export default function ModalNewArticle(props) {
     const { publicKey, signAllTransactions } = useAnchorWallet()
+    const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+
     const [newArticleFormData, setNewArticleFormData] = useState(
         {
             country: "",
@@ -54,7 +57,7 @@ export default function ModalNewArticle(props) {
         const keyPair = curve.keyFromPrivate(newArticleFormData.privateKey)
         const diffePubKey = keyPair.getPublic().encode("hex")
 
-        if (diffePubKey !== props.sellerDiffiePubKey) {
+        if (diffePubKey !== sellerDiffiePubKey) {
             return "The Private key is incorrect"
         }
         return ""

@@ -10,11 +10,13 @@ import useStore from "../store"
 
 
 export default function SellerAccount() {
-    const setIsSeller = useStore(state => state.setIsSeller)
     const isSeller = useStore(state => state.isSeller)
+    const setIsSeller = useStore(state => state.setIsSeller)
+
+    const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+    const setSellerDiffiePubKey = useStore(state => state.setSellerDiffiePubKey)
 
     const navigate = useNavigate()
-    const [sellerDiffiePubKey, setSellerDiffiePubKey] = useState("")
 
     const { connected, publicKey } = useWallet()
 
@@ -59,6 +61,7 @@ export default function SellerAccount() {
                 }
                 const sellerDiffiePubKey = decodedSellerAccount.data.diffie_public_key
                 setSellerDiffiePubKey(sellerDiffiePubKey)
+
                 setIsSeller(true)
             } else {
                 setIsSeller(false)
@@ -78,7 +81,7 @@ export default function SellerAccount() {
                 )
             case true:
                 return (
-                    <SellerAccountOptions sellerDiffiePubKey={sellerDiffiePubKey} />
+                    <SellerAccountOptions />
                 )
         }
     }

@@ -56,13 +56,11 @@ export default function SellerAccountOptions(props) {
             {showModalNewArticle &&
                 <ModalNewArticle
                     setShowModalNewArticle={setShowModalNewArticle}
-                    sellerDiffiePubKey={props.sellerDiffiePubKey}
                 />}
 
             {showModalGetSales &&
                 <ModalGetSales
                     setShowModalGetSales={setShowModalGetSales}
-                    sellerDiffiePubKey={props.sellerDiffiePubKey}
                 />}
 
             {showModalDeleteSellerAccount &&
