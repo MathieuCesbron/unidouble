@@ -7,8 +7,6 @@ import "./Modals.css"
 
 export default function ModalSales(props) {
     const privateKey = useStore(state => state.privateKey)
-    const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
-    console.log(sellerDiffiePubKey)
 
     const getSales = () => {
         const res = []
