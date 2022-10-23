@@ -76,6 +76,13 @@ export default function ArticleSales(props) {
                 <ModalSales
                     setShowModalSales={setShowModalSales}
                     uuid={props.uuid}
+
+                    deliveryAddressCiphertexts={props.deliveryAddressCiphertexts}
+                    reviewers={props.reviewers}
+                    quantityBought={props.quantityBought}
+                    buyerDiffiePublicKeys={props.buyerDiffiePublicKeys}
+                    buyerSalts={props.buyerSalts}
+                    buyerIvs={props.buyerIvs}
                 />
             }
         </div>

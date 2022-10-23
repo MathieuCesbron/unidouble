@@ -9,7 +9,7 @@ import NoArticles from "../components/NoArticles"
 import "./Sales.css"
 
 
-export default function Sales() {
+export default function Sales(props) {
     const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
 
@@ -64,7 +64,7 @@ export default function Sales() {
                 vec(publicKeyBorsh(), "reviewers"),
                 vec(u16(), "quantity_bought"),
                 vec(str(), "buyer_diffie_public_keys"),
-                vec(str(), "buyers_salts"),
+                vec(str(), "buyer_salts"),
                 vec(str(), "buyer_ivs")
             ]).decode(encodedArticle.account.data, 8)
         }))
@@ -123,10 +123,10 @@ export default function Sales() {
                                 rating={data.rating}
                                 deliveryAddressCiphertexts={data.delivery_address_ciphertexts}
                                 reviewers={data.reviewers}
-                                quantity_bought={data.quantity_bought}
-                                buyer_diffie_public_keys={data.buyer_diffie_public_keys}
-                                buyers_salts={data.buyers_salts}
-                                buyers_ivs={data.buyers_ivs}
+                                quantityBought={data.quantity_bought}
+                                buyerDiffiePublicKeys={data.buyer_diffie_public_keys}
+                                buyerSalts={data.buyer_salts}
+                                buyerIvs={data.buyer_ivs}
                             />
                         ))
                     }

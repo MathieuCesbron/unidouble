@@ -7,9 +7,12 @@ import "./Modals.css"
 
 export default function ModalGetSales(props) {
     const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+
+    const privateKey = useStore(state => state.privateKey)
+    const setPrivateKey = useStore(state => state.setPrivateKey)
+
     const navigate = useNavigate()
 
-    const [privateKey, setPrivateKey] = useState("")
     const [error, setError] = useState("")
 
     const submitPrivateKey = async (event) => {
