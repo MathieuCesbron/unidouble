@@ -26,8 +26,8 @@ export default function ModalCheckoutArticle(props) {
         }
     )
 
-    const buyerDiffieKeyPair = curve.genKeyPair()
-    const buyerDiffiePubKey = buyerDiffieKeyPair.getPublic().encode("hex")
+    const [buyerDiffieKeyPair] = useState(curve.genKeyPair())
+    const [buyerDiffiePubKey] = useState(buyerDiffieKeyPair.getPublic().encode("hex"))
 
     const setBuyArticleFormDataHandler = event => {
         setBuyArticleFormData(prevBuyArticleFormData => ({
