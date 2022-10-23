@@ -307,6 +307,7 @@ pub mod unidouble {
             .to_account_info()
             .try_borrow_mut_lamports()? += lamports_to_reviewer as u64;
 
+        article.quantity_bought.remove(index);
         article.reviewers.remove(index);
         article.delivery_address_ciphertexts.remove(index);
         article.buyer_diffie_public_keys.remove(index);
