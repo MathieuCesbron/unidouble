@@ -13,6 +13,9 @@ const useStore = create(set => ({
     sellerDiffiePubKey: undefined,
     setSellerDiffiePubKey: (sellerDiffiePubKey) => set(state => ({ sellerDiffiePubKey })),
 
+    publicKey: "",
+    setPublicKey: (publicKey) => set(state => ({ publicKey })),
+
     privateKey: "",
     setPrivateKey: (privateKey) => set(state => ({ privateKey })),
 }))

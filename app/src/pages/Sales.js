@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
 import ArticleSales from "../components/ArticleSales"
 import NoArticles from "../components/NoArticles"
+import useStore from "../store"
 import "./Sales.css"
 
 
@@ -13,10 +14,13 @@ export default function Sales(props) {
     const navigate = useNavigate()
     const { publicKey, connected } = useWallet()
 
+    const publicKeyStore = useStore(state => state.publicKey)
+    const setPublicKeyStore = useStore(state => state.setPublicKey)
+    const setPrivateKey = useStore(state => state.setPrivateKey)
+
     const [loading, setLoading] = useState(true)
     const [myArticles, setMyArticles] = useState([])
     const [totalBuyers, setTotalBuyers] = useState(0)
-
 
     const getMyArticles = async () => {
         const filters = {
@@ -75,6 +79,11 @@ export default function Sales(props) {
     useEffect(() => {
         if (!connected) {
             navigate("/")
+        }
+        if (publicKeyStore != publicKey) {
+            setPublicKeyStore(publicKey)
+            setPrivateKey("")
+            navigate("/seller-account")
         }
         if (!publicKey) {
             return

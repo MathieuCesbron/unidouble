@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useWallet } from "@solana/wallet-adapter-react"
 import { useNavigate } from "react-router-dom"
 
 import { curve } from "../../utils/crypto"
@@ -6,8 +7,11 @@ import useStore from "../../store"
 import "./Modals.css"
 
 export default function ModalGetSales(props) {
+    const { publicKey } = useWallet()
+
     const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
 
+    const setPublicKey = useStore(state => state.setPublicKey)
     const privateKey = useStore(state => state.privateKey)
     const setPrivateKey = useStore(state => state.setPrivateKey)
 
@@ -36,6 +40,11 @@ export default function ModalGetSales(props) {
         navigate("/seller-account/sales")
     }
 
+    const onChangeHandler = (event) => {
+        setPublicKey(publicKey)
+        setPrivateKey(event.target.value)
+    }
+
     return (
         <div className="modal-background">
             <div className="modal">
@@ -56,7 +65,7 @@ export default function ModalGetSales(props) {
                             className="input-private-key"
                             name="privateKey"
                             value={privateKey}
-                            onChange={event => setPrivateKey(event.target.value)}
+                            onChange={onChangeHandler}
                             minLength={63}
                             maxLength={63}>
                         </input>

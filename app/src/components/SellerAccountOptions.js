@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useWallet } from "@solana/wallet-adapter-react"
 
 import newArticleLogo from "../images/new-article-logo.png"
 import salesLogo from "../images/sales-logo.png"
@@ -8,11 +9,17 @@ import deleteSellerAccount from "../images/delete-seller-account-logo.png"
 import ModalNewArticle from "./modals/ModalNewArticle"
 import ModalGetSales from "./modals/ModalGetSales"
 import ModalDeleteSellerAccount from "./modals/ModalDeleteSellerAccount"
+import useStore from "../store"
 import "./SellerAccountOptions.css"
 
 
 export default function SellerAccountOptions(props) {
     const navigate = useNavigate()
+    const { publicKey } = useWallet()
+
+    const publicKeyStore = useStore(state => state.publicKey)
+    const privateKey = useStore(state => state.privateKey)
+    const setPrivateKey = useStore(state => state.setPrivateKey)
 
     const [showModalNewArticle, setShowModalNewArticle] = useState(false)
     const [showModalGetSales, setShowModalGetSales] = useState(false)
@@ -23,6 +30,13 @@ export default function SellerAccountOptions(props) {
     }
 
     const salesHandler = () => {
+        if (privateKey) {
+            if (publicKeyStore == publicKey) {
+                navigate("/seller-account/sales")
+            } else {
+                setPrivateKey("")
+            }
+        }
         setShowModalGetSales(true)
     }
 
