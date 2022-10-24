@@ -4,11 +4,11 @@ export default function SectionSale(props) {
     return (
         <div>
             <p>
-                Buyer: {props.reviewer}
+                <b>Buyer:</b> {props.reviewer}
                 <br />
-                Quantity: {props.quantityBought}
+                <b>Quantity:</b> {props.quantityBought}
                 <br />
-                Delivery address: {props.deliveryAddressDecrypted}
+                <b>Delivery address:</b> {props.deliveryAddressDecrypted}
             </p>
             <hr />
         </div>
