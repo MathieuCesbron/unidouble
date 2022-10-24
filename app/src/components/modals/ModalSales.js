@@ -1,15 +1,16 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import cryptoJS from 'crypto-js'
 
 import { curve } from "../../utils/crypto"
 import useStore from "../../store"
+import SectionSale from "../SectionSale"
 import "./Modals.css"
 
 export default function ModalSales(props) {
     const privateKey = useStore(state => state.privateKey)
 
-    const getSales = () => {
-        const res = []
+    const SectionSales = () => {
+        const sales = []
         for (let i = 0; i < props.reviewers.length; i++) {
             const basepoint = curve.keyFromPublic(Buffer.from(props.buyerDiffiePublicKeys[i], "hex")).getPublic()
             const keyPair = curve.keyFromPrivate(privateKey)
@@ -26,18 +27,27 @@ export default function ModalSales(props) {
             )
 
             const deliveryAddressDecrypted = text.toString(cryptoJS.enc.Utf8)
-
-            res.push({
-                reviewer: props.reviewers[i],
+            sales.push({
+                reviewer: props.reviewers[i].toString(),
                 quantityBought: props.quantityBought[i],
                 deliveryAddressDecrypted: deliveryAddressDecrypted,
             })
         }
 
-        return res
+        return (
+            sales.map((
+                {
+                    reviewer,
+                    quantityBought,
+                    deliveryAddressDecrypted
+                }, index) => <SectionSale
+                    key={index}
+                    reviewer={reviewer}
+                    quantityBought={quantityBought}
+                    deliveryAddressDecrypted={deliveryAddressDecrypted}
+                />)
+        )
     }
-
-    getSales()
 
     return (
         <div className="modal-background">
@@ -51,6 +61,7 @@ export default function ModalSales(props) {
                 </div>
                 <h2>Sales for #{props.uuid}</h2>
                 <hr />
+                <SectionSales />
             </div>
         </div>
     )
