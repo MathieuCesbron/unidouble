@@ -1,7 +1,7 @@
 .article {
     border: black solid 1px;
     border-radius: 5px;
-    margin: 30px auto 0 auto;
+    margin: 30px auto;
     height: 200px;
     width: 800px;
     display: flex;
