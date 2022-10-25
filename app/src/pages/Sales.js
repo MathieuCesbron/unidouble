@@ -82,6 +82,10 @@ export default function Sales(props) {
             ]).decode(encodedArticle.account.data, 8)
         }))
 
+        decodedArticles.sort((a, b) => {
+            return b.data.buyer_count - a.data.buyer_count
+        })
+
         return decodedArticles
     }
 
