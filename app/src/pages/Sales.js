@@ -4,6 +4,7 @@ import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec } from
 import { useNavigate } from "react-router-dom"
 
 import { connection, programID, storeCreatorPubKey } from "../utils/solana"
+import PaginationSearch from "../components/PaginationSearch"
 import ArticleSales from "../components/ArticleSales"
 import NoArticles from "../components/NoArticles"
 import useStore from "../store"
@@ -18,9 +19,17 @@ export default function Sales(props) {
     const setPublicKeyStore = useStore(state => state.setPublicKey)
     const setPrivateKey = useStore(state => state.setPrivateKey)
 
-    const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
     const [myArticles, setMyArticles] = useState([])
+    const [loading, setLoading] = useState(true)
     const [totalBuyers, setTotalBuyers] = useState(0)
+
+    const articlesPerPage = 5
+    const lastPostIndex = currentPage * articlesPerPage
+    const firstPostIndex = lastPostIndex - articlesPerPage
+    const currentMyArticles = myArticles.slice(firstPostIndex, lastPostIndex)
+
+    const paginate = pageNumber => setCurrentPage(pageNumber)
 
     const getMyArticles = async () => {
         const filters = {
@@ -113,7 +122,7 @@ export default function Sales(props) {
                 <>
                     <h2 className="sales-total">Total number of buyers: {totalBuyers}</h2>
                     {
-                        myArticles.map(({ articlePubKey, data }) => (
+                        currentMyArticles.map(({ articlePubKey, data }) => (
                             <ArticleSales
                                 articlePubKey={articlePubKey}
                                 setMyArticles={setMyArticles}
@@ -138,6 +147,14 @@ export default function Sales(props) {
                                 buyerIvs={data.buyer_ivs}
                             />
                         ))
+                    }
+                    {
+                        myArticles.length > articlesPerPage && <PaginationSearch
+                            articlesPerPage={articlesPerPage}
+                            totalArticles={myArticles.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                        />
                     }
                 </>
             )
