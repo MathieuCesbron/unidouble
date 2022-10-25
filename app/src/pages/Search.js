@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { struct, u8, u16, u64, f32, publicKey as publicKeyBorsh, str, vec, publicKey } from "@project-serum/borsh"
+import { struct, u8, u16, u64, f32, str, vec, publicKey } from "@project-serum/borsh"
 import bs58 from "bs58"
-
 
 import EmptySearch from "../components/EmptySearch"
 import ArticleSearch from "../components/ArticleSearch"
