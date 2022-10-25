@@ -79,6 +79,11 @@ export default function Search() {
             ]).decode(encodedArticles.account.data, 8)
         }))
 
+        // algorithm to order search articles
+        decodedArticles.sort((a, b) => {
+            return b.data.buyer_count * b.data.price * b.data.rating - a.data.buyer_count * a.data.price * a.data.rating
+        })
+
         return decodedArticles
     }
 
