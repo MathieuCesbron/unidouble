@@ -4,12 +4,23 @@ import cryptoJS from 'crypto-js'
 import { curve } from "../../utils/crypto"
 import useStore from "../../store"
 import SectionSale from "../SectionSale"
+import PaginationSearch from "../PaginationSearch"
 import "./Modals.css"
 
 export default function ModalSales(props) {
     const privateKey = useStore(state => state.privateKey)
 
-    const SectionSales = () => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [sales, setSales] = useState([])
+
+    const salesPerPage = 5
+    const lastPostIndex = currentPage * salesPerPage
+    const firstPostIndex = lastPostIndex - salesPerPage
+    const currentSales = sales.slice(firstPostIndex, lastPostIndex)
+
+    const paginate = pageNumber => setCurrentPage(pageNumber)
+
+    const getSales = () => {
         const sales = []
         for (let i = 0; i < props.reviewers.length; i++) {
             const basepoint = curve.keyFromPublic(Buffer.from(props.buyerDiffiePublicKeys[i], "hex")).getPublic()
@@ -34,20 +45,12 @@ export default function ModalSales(props) {
             })
         }
 
-        return (
-            sales.map((
-                {
-                    reviewer,
-                    quantityBought,
-                    deliveryAddressDecrypted
-                }, index) => <SectionSale
-                    key={index}
-                    reviewer={reviewer}
-                    quantityBought={quantityBought}
-                    deliveryAddressDecrypted={deliveryAddressDecrypted}
-                />)
-        )
+        return sales
     }
+
+    useEffect(() => {
+        setSales(getSales())
+    }, [])
 
     return (
         <div className="modal-background">
@@ -61,7 +64,27 @@ export default function ModalSales(props) {
                 </div>
                 <h2>Sales for #{props.uuid}</h2>
                 <hr />
-                <SectionSales />
+                {
+                    currentSales.map((
+                        {
+                            reviewer,
+                            quantityBought,
+                            deliveryAddressDecrypted
+                        }, index) => <SectionSale
+                            key={index}
+                            reviewer={reviewer}
+                            quantityBought={quantityBought}
+                            deliveryAddressDecrypted={deliveryAddressDecrypted}
+                        />)
+                }
+                {
+                    sales.length > salesPerPage && <PaginationSearch
+                        articlesPerPage={salesPerPage}
+                        totalArticles={sales.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
+                }
             </div>
         </div>
     )
