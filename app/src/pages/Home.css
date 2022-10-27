@@ -1,0 +1,14 @@
+.home {
+    display: flex;
+    padding-top: 30px;
+}
+
+.home-search-image {
+    width: 500px;
+    margin-left: 270px;
+}
+
+.connect-wallet-image {
+    width: 350px;
+    margin-left: 240px;
+}
