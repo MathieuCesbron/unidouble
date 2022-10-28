@@ -1,6 +1,7 @@
 .home {
     display: flex;
     padding-top: 30px;
+    justify-content: space-between;
 }
 
 .home-search-image {
@@ -10,5 +11,5 @@
 
 .connect-wallet-image {
     width: 350px;
-    margin-left: 240px;
+    margin-right: 70px;
 }
