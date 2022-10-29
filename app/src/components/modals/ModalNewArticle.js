@@ -91,10 +91,10 @@ export default function ModalNewArticle(props) {
             }))
         }
 
-        if (newArticleFormData.privateKey.length != 63) {
+        if (newArticleFormData.privateKey.length != 62 && newArticleFormData.privateKey.length != 63) {
             setNewArticleFormData(prevNewArticleFormData => ({
                 ...prevNewArticleFormData,
-                error: "The Private key should be exactly 63 characters"
+                error: "The Private key should be 62 or 63 characters"
             }))
             return
         } else {
@@ -299,7 +299,7 @@ export default function ModalNewArticle(props) {
                             name="privateKey"
                             value={newArticleFormData.privateKey}
                             onChange={setNewArticleFormDataHandler}
-                            minLength={63}
+                            minLength={62}
                             maxLength={63}>
                         </input>
                     </div>

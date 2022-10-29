@@ -21,8 +21,8 @@ export default function ModalGetSales(props) {
 
     const submitPrivateKey = async (event) => {
         event.preventDefault()
-        if (privateKey.length != 63) {
-            setError("The Private key should be exactly 63 characters")
+        if (privateKey.length != 62 && privateKey.length != 63) {
+            setError("The Private key should be 62 or 63 characters")
             return
         } else {
             setError("")
@@ -66,7 +66,7 @@ export default function ModalGetSales(props) {
                             name="privateKey"
                             value={privateKey}
                             onChange={onChangeHandler}
-                            minLength={63}
+                            minLength={62}
                             maxLength={63}>
                         </input>
                     </div>

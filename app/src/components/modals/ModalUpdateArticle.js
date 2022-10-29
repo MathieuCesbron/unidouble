@@ -43,10 +43,10 @@ export default function ModalUpdateArticle(props) {
     const submitUpdateArticle = async event => {
         event.preventDefault()
 
-        if (updateArticleFormData.privateKey.length != 63) {
+        if (updateArticleFormData.privateKey.length != 62 && updateArticleFormData.privateKey.length != 63) {
             setUpdateArticleFormData(prevUpdateArticleFormData => ({
                 ...prevUpdateArticleFormData,
-                error: "The Private key should be exactly 63 characters"
+                error: "The Private key should be 62 or 63 characters"
             }))
             return
         } else {
@@ -186,7 +186,7 @@ export default function ModalUpdateArticle(props) {
                             name="privateKey"
                             value={updateArticleFormData.privateKey}
                             onChange={setUpdateArticleFormDataHandler}
-                            minLength={63}
+                            minLength={62}
                             maxLength={63}>
                         </input>
                     </div>
