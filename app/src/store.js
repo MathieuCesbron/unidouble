@@ -18,6 +18,9 @@ const useStore = create(set => ({
 
     privateKey: "",
     setPrivateKey: (privateKey) => set(state => ({ privateKey })),
+
+    toastMsg: "",
+    setToastMsg: (toastMsg) => set(state => ({ toastMsg }))
 }))
 
 export default useStore

@@ -7,10 +7,10 @@ import useStore from "../../store"
 import "./Modals.css"
 import "./ModalNewArticle.css"
 
-
 export default function ModalUpdateArticle(props) {
     const { publicKey } = useAnchorWallet()
     const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+    const setToastMsg = useStore(state => state.setToastMsg)
 
     const [updateArticleFormData, setUpdateArticleFormData] = useState(
         {
@@ -158,8 +158,10 @@ export default function ModalUpdateArticle(props) {
                     }
                 )
             ))
+            setToastMsg("Article successfully updated")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to update article")
         }
 
     }

@@ -1,5 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
+import { ToastContainer, toast } from 'react-toastify'
+
 
 import { WalletContext } from "./components/WalletContext"
 import Navbar from "./components/Navbar"
@@ -12,9 +14,22 @@ import MyPurchases from "./pages/MyPurchases"
 import Whitepaper from "./pages/Whitepaper"
 import TermsAndConditions from "./pages/TermsAndConditions"
 import Footer from "./components/Footer"
+import useStore from "./store"
 import "./App.css"
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function App() {
+  const toastNotify = (msg) => toast(msg)
+  const toastMsg = useStore(state => state.toastMsg)
+  const setToastMsg = useStore(state => state.setToastMsg)
+
+  useEffect(() => {
+    if (toastMsg != "") {
+      toastNotify(toastMsg)
+    }
+    setToastMsg("")
+  }, [toastMsg])
+
   return (
     <>
       <WalletContext>
@@ -29,6 +44,16 @@ export default function App() {
           <Route path="/whitepaper" element={<Whitepaper />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         </Routes>
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          rtl={false}
+          draggable
+          theme="light" />
+
       </WalletContext>
       <Footer />
     </>

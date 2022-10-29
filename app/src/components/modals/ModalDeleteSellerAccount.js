@@ -7,9 +7,9 @@ import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import useStore from "../../store"
 import "./Modals.css"
 
-
 export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccount }) {
     const setIsSeller = useStore(state => state.setIsSeller)
+    const setToastMsg = useStore(state => state.setToastMsg)
     const { publicKey } = useWallet()
 
     const [isSure, setIsSure] = useState(false)
@@ -73,8 +73,10 @@ export default function ModalDeleteSellerAccount({ setShowModalDeleteSellerAccou
                 .rpc()
             console.log(tx)
             setIsSeller(false)
+            setToastMsg("Success deleting seller account")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to delete seller account")
         }
     }
 

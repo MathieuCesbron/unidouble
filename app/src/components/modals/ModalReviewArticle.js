@@ -5,11 +5,14 @@ import { useWallet } from "@solana/wallet-adapter-react"
 
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import { getProgram } from "../../utils/solana"
+import useStore from "../../store"
 import "./ModalReviewArticle.css"
 import "./Modals.css"
 
 export default function ModalReviewArticle(props) {
     const { publicKey } = useWallet()
+
+    const setToastMsg = useStore(state => state.setToastMsg)
 
     const [rating, setRating] = useState(0)
     const [isSure, setIsSure] = useState(false)
@@ -34,8 +37,10 @@ export default function ModalReviewArticle(props) {
                 )
             ))
             props.setShowModalReviewArticle(false)
+            setToastMsg("Success to review article")
         } catch (error) {
             console.log(error)
+            setToastMsg("Failed to review article")
         }
     }
 

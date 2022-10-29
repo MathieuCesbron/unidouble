@@ -7,12 +7,14 @@ import { AES, mode } from "crypto-js"
 import { curve } from "../../utils/crypto"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import { connection, getProgram, programID, storeCreatorPubKey } from "../../utils/solana"
+import useStore from "../../store"
 import "./ModalCheckoutArticle.css"
 import "./Modals.css"
 
-
 export default function ModalCheckoutArticle(props) {
     const { publicKey } = useWallet()
+
+    const setToastMsg = useStore(state => state.setToastMsg)
 
     const [sellerDiffiePubKey, setSellerDiffiePubKey] = useState(undefined)
     const [encryptedDeliveryAddress, setEncryptedDeliveryAddress] = useState("")
@@ -125,8 +127,10 @@ export default function ModalCheckoutArticle(props) {
                 .rpc()
             console.log(tx)
             props.setShowModalCheckoutArticle(false)
+            setToastMsg("Success buying article")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to buy article")
         }
     }
 

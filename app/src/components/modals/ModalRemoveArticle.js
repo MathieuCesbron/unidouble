@@ -3,12 +3,14 @@ import { useWallet } from "@solana/wallet-adapter-react"
 
 import { getProgram, storePubKey } from "../../utils/solana"
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
+import useStore from "../../store"
 import "./Modals.css"
-
 
 export default function ModalRemoveArticle(props) {
     const { publicKey } = useWallet()
     const [isSure, setIsSure] = useState(false)
+
+    const setToastMsg = useStore(state => state.setToastMsg)
 
     const removeArticleOnChain = async () => {
         try {
@@ -29,11 +31,12 @@ export default function ModalRemoveArticle(props) {
                     myArticle => myArticle.articlePubKey !== props.articlePubKey
                 )
             ))
+            props.setShowModalRemoveArticle(false)
+            setToastMsg("Success removing article")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to remove article")
         }
-
-        props.setShowModalRemoveArticle(false)
     }
 
     return (

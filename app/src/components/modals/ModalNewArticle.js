@@ -17,6 +17,7 @@ import "./ModalNewArticle.css"
 export default function ModalNewArticle(props) {
     const { publicKey, signAllTransactions } = useAnchorWallet()
     const sellerDiffiePubKey = useStore(state => state.sellerDiffiePubKey)
+    const setToastMsg = useStore(state => state.setToastMsg)
 
     const [newArticleFormData, setNewArticleFormData] = useState(
         {
@@ -254,8 +255,10 @@ export default function ModalNewArticle(props) {
                 console.log(tx)
             }
             props.setShowModalNewArticle(false)
+            setToastMsg("Success sending Tx")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to send Tx")
         }
     }
 

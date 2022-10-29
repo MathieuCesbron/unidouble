@@ -9,10 +9,9 @@ import "./Modals.css"
 import "./ModalCreateSellerAccount.css"
 import useStore from "../../store"
 
-
-
 export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccount }) {
     const setIsSeller = useStore(state => state.setIsSeller)
+    const setToastMsg = useStore(state => state.setToastMsg)
     const { publicKey } = useWallet()
     const [isCopied, setIsCopied] = useState(false)
 
@@ -40,8 +39,10 @@ export default function ModalCreateSellerAccount({ setShowModalCreateSellerAccou
                 .rpc()
             console.log(tx)
             setIsSeller(true)
+            setToastMsg("Success creating seller account")
         } catch (error) {
             console.log("error: ", error)
+            setToastMsg("Failed to create seller account")
         }
     }
 
