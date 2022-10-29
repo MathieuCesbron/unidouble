@@ -2,12 +2,12 @@
 
 ---
 
-An e-commerce platform stored on a blockchain have these characteristics compared to traditional e-commerce website:
+An e-commerce platform stored on a blockchain has these characteristics compared to traditional e-commerce website:
 
 1. Full privacy of users
 2. No blacklisting of users and items sold
 3. No data collected
-4. Remove predatory dark patterns
+4. Removes predatory dark patterns
 5. All the money made by the e-commerce is available for items delivery or for charity
 
 The objective of Unidouble is to be a better version of Ebay.
