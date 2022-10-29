@@ -4,7 +4,7 @@
 
 An e-commerce platform stored on a blockchain have these characteristics compared to traditional e-commerce website:
 
-1. Full privacy of his users
+1. Full privacy of users
 2. No blacklisting of users and items sold
 3. No data collected
 4. Remove predatory dark patterns
