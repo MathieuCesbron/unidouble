@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import ReactStars from 'react-stars'
 import { LAMPORTS_PER_SOL, SystemProgram } from "@solana/web3.js"
 import { useWallet } from "@solana/wallet-adapter-react"
+import BigNumber from "bignumber.js"
 
 import solanaLogoBlue from "../../images/solana-icon-blue.png"
 import { getProgram } from "../../utils/solana"
@@ -16,6 +17,8 @@ export default function ModalReviewArticle(props) {
 
     const [rating, setRating] = useState(0)
     const [isSure, setIsSure] = useState(false)
+
+    const gain = new BigNumber(props.price).dividedBy(LAMPORTS_PER_SOL * 100)
 
     const reviewArticlOnChain = async () => {
         try {
@@ -81,7 +84,7 @@ export default function ModalReviewArticle(props) {
                 <label htmlFor="isSure">I want to rate this article a {rating}</label>
                 <hr />
                 <div className="modal-price-wrapper">
-                    <h3>Gain: {props.price / LAMPORTS_PER_SOL / 100}</h3>
+                    <h3>Gain: {gain.toString()}</h3>
                     <img className="modal-solana-logo-blue" src={solanaLogoBlue} />
                 </div>
                 <button disabled={!isSure} className="modal-btn" onClick={reviewArticlOnChain} >
