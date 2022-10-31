@@ -248,7 +248,11 @@ export default function ModalNewArticle(props) {
 
             for (let signedTx of signedTxs) {
                 const tx = await connection.sendRawTransaction(
-                    signedTx.serialize()
+                    signedTx.serialize(),
+                    {
+                        skipPreflight: true,
+                        maxRetries: 5,
+                    }
                 )
 
                 await connection.confirmTransaction(tx)
