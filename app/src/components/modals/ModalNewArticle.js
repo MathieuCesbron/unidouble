@@ -251,7 +251,6 @@ export default function ModalNewArticle(props) {
                     signedTx.serialize(),
                     {
                         skipPreflight: true,
-                        maxRetries: 5,
                     }
                 )
 
