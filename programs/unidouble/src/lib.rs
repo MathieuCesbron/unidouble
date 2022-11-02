@@ -4,7 +4,7 @@ use anchor_lang::solana_program::program::invoke;
 
 pub mod error;
 
-declare_id!("J47c2XTaNBzW9d6KvUZth71FzsT9KcKa8bmsZXZVnxyD");
+declare_id!("Gu6yY2zwiWA2ZFfpygo7idVHCFCFQXGstmckwcn3BAys");
 
 #[program]
 pub mod unidouble {
@@ -66,8 +66,8 @@ pub mod unidouble {
         category: u8,
     ) -> Result<()> {
         require!(uuid.chars().count() == 6, ErrorCode::InvalidUUID);
-        require!(country < 32, ErrorCode::InvalidCountry);
-        require!(category < 16, ErrorCode::InvalidCategory);
+        require!(country < 16, ErrorCode::InvalidCountry);
+        require!(category < 32, ErrorCode::InvalidCategory);
         require!(
             ctx.accounts.user.key() == ctx.accounts.seller_account.seller_public_key,
             ErrorCode::InvalidSellerAccount
@@ -448,7 +448,7 @@ pub struct Store {
     // 16 countries with 32 categories each
     // 255 articles per categories
     // total number of articles: 16 * 32 * 255 = 130560
-    pub info: [[u8; 16]; 32], // +1*16*32=512
+    pub info: [[u8; 32]; 16], // +1*16*32=512
     pub creator: Pubkey,      // +32
 }
 

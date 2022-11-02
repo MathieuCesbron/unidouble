@@ -23,10 +23,10 @@ pub enum ErrorCode {
     #[msg("The uuid should be exactly 6 chars")]
     InvalidUUID,
 
-    #[msg("The country should be between 0 and 31")]
+    #[msg("The country should be between 0 and 15")]
     InvalidCountry,
 
-    #[msg("The category should be between 0 and 15")]
+    #[msg("The category should be between 0 and 31")]
     InvalidCategory,
 
     #[msg("The price should be between 100 000 and 100 000 000 000 000 lamports")]

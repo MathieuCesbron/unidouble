@@ -13,8 +13,8 @@ const connection = new Connection(network, opts.preflightCommitment)
 
 const programID = new PublicKey(idl.metadata.address)
 
-const storePubKey = "EzF8eQBdzVAbGiD3McM5PJ7NmUQp4q677whffoYcU7C6"
-const storeCreatorPubKey = "22EokFzJSsa7QaRivEmAgj2Mnty8JaUf4xp3eQc7auGN"
+const storePubKey = "8qD2xHNkrhYZRTCZBMAu9BMDe9ZQN5FPrnrKca6XEG21"
+const storeCreatorPubKey = "ErPn5Ka42zwEf5ykyRhrMjpJZTDrW195JJKjraCR1v9q"
 
 const getProgram = () => {
     const connection = new Connection(network, opts.preflightCommitment)

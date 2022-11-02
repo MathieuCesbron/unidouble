@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.devnet]
-unidouble = "J47c2XTaNBzW9d6KvUZth71FzsT9KcKa8bmsZXZVnxyD"
+unidouble = "Gu6yY2zwiWA2ZFfpygo7idVHCFCFQXGstmckwcn3BAys"
 
 [registry]
 url = "https://api.apr.dev"
