@@ -4,7 +4,7 @@ use anchor_lang::solana_program::program::invoke;
 
 pub mod error;
 
-declare_id!("Gu6yY2zwiWA2ZFfpygo7idVHCFCFQXGstmckwcn3BAys");
+declare_id!("EdX9rzCQqSPGDb5RQxaVRKcDkKqUUiwvA6Tgr6vBdJKG");
 
 #[program]
 pub mod unidouble {
@@ -33,12 +33,15 @@ pub mod unidouble {
     }
 
     pub fn delete_seller_account(ctx: Context<DeleteSellerAccount>) -> Result<()> {
-        // TODO: Add a field to be sure the seller has removed all his items before
-        // deleting his seller account.
         require!(
             *ctx.accounts.user.key == ctx.accounts.seller_account.seller_public_key,
             ErrorCode::InvalidSellerAccount
         );
+        require!(
+            ctx.accounts.seller_account.articles_count == 0,
+            ErrorCode::ShouldRemoveArticlesBeforeDeletingSellerAccount
+        );
+
         Ok(())
     }
 
@@ -65,11 +68,18 @@ pub mod unidouble {
         country: u8,
         category: u8,
     ) -> Result<()> {
+        let seller_account = &mut ctx.accounts.seller_account;
+
+        require!(
+            seller_account.articles_count <= 1000,
+            ErrorCode::TooMuchArticles
+        );
+
         require!(uuid.chars().count() == 6, ErrorCode::InvalidUUID);
         require!(country < 16, ErrorCode::InvalidCountry);
         require!(category < 32, ErrorCode::InvalidCategory);
         require!(
-            ctx.accounts.user.key() == ctx.accounts.seller_account.seller_public_key,
+            ctx.accounts.user.key() == seller_account.seller_public_key,
             ErrorCode::InvalidSellerAccount
         );
 
@@ -82,10 +92,12 @@ pub mod unidouble {
         let article = &mut ctx.accounts.article;
 
         article.seller_account_public_key = ctx.accounts.user.key();
-        article.store_creator_public_key = ctx.accounts.store.creator.key();
+        article.store_creator_public_key = store.creator.key();
         article.uuid = uuid;
         article.country = country;
         article.category = category;
+
+        seller_account.articles_count += 1;
         Ok(())
     }
 
@@ -174,6 +186,10 @@ pub mod unidouble {
 
     pub fn remove_article(ctx: Context<RemoveArticle>) -> Result<()> {
         require!(
+            ctx.accounts.user.key() == ctx.accounts.seller_account.seller_public_key,
+            ErrorCode::InvalidSellerAccount
+        );
+        require!(
             ctx.accounts.user.key() == ctx.accounts.article.seller_account_public_key,
             ErrorCode::InvalidSellerAccount
         );
@@ -183,9 +199,13 @@ pub mod unidouble {
         );
 
         let store = &mut ctx.accounts.store;
+        let seller_account = &mut ctx.accounts.seller_account;
+
+        seller_account.articles_count -= 1;
+
         let country = ctx.accounts.article.country;
         let category = ctx.accounts.article.category;
-        msg!("{:?}", store.info);
+
         store.info[country as usize][category as usize] -= 1;
         Ok(())
     }
@@ -346,8 +366,8 @@ pub struct CreateSellerAccount<'info> {
     #[account(
         init,
         payer=user,
-        // 8 + 68 + 64
-        space = 140,
+        // 8 + 68 + 64 + 2
+        space = 142,
         seeds = [user.key().as_ref()],
         bump,
     )]
@@ -368,6 +388,7 @@ pub struct DeleteSellerAccount<'info> {
 pub struct UpdateDiffieSellerAccount<'info> {
     #[account(mut)]
     pub user: Signer<'info>,
+    #[account(mut)]
     pub seller_account: Account<'info, SellerAccount>,
 }
 
@@ -384,9 +405,10 @@ pub struct InitializeArticle<'info> {
         bump,
     )]
     pub article: Account<'info, Article>,
-    pub seller_account: Account<'info, SellerAccount>,
     #[account(mut)]
-    pub store: Account<'info, Store>,
+    pub seller_account: Box<Account<'info, SellerAccount>>,
+    #[account(mut)]
+    pub store: Box<Account<'info, Store>>,
     pub system_program: Program<'info, System>,
 }
 
@@ -412,6 +434,8 @@ pub struct RemoveArticle<'info> {
     user: Signer<'info>,
     #[account(mut, close = user)]
     article: Account<'info, Article>,
+    #[account(mut)]
+    pub seller_account: Account<'info, SellerAccount>,
     #[account(mut)]
     pub store: Account<'info, Store>,
 }
@@ -457,6 +481,7 @@ pub struct SellerAccount {
     seller_public_key: Pubkey,        // +32
     store_creator_public_key: Pubkey, // +32
     diffie_public_key: String,        // +4+64=68
+    articles_count: u16,              // +2
 }
 
 #[account]

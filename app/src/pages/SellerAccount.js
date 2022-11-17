@@ -31,7 +31,7 @@ export default function SellerAccount() {
         const filters = {
             filters: [
                 {
-                    dataSize: 140
+                    dataSize: 142
                 },
                 {
                     memcmp: {

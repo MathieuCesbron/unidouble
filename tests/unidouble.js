@@ -199,7 +199,8 @@ describe("unidouble", () => {
         {
           user: seller.publicKey,
           article: article,
-          store: store
+          sellerAccount: sellerAccount,
+          store: store,
         })
       .signers([seller])
       .rpc()

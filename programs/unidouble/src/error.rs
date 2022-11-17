@@ -64,4 +64,10 @@ pub enum ErrorCode {
 
     #[msg("The user is not allowed to review")]
     InvalidReviewer,
+
+    #[msg("The maximum of 1000 articles per seller account is reached")]
+    TooMuchArticles,
+
+    #[msg("The seller account should remove all his articles before deleting his account")]
+    ShouldRemoveArticlesBeforeDeletingSellerAccount,
 }

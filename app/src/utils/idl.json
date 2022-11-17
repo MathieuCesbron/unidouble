@@ -80,7 +80,7 @@
                 },
                 {
                     "name": "sellerAccount",
-                    "isMut": false,
+                    "isMut": true,
                     "isSigner": false
                 }
             ],
@@ -106,7 +106,7 @@
                 },
                 {
                     "name": "sellerAccount",
-                    "isMut": false,
+                    "isMut": true,
                     "isSigner": false
                 },
                 {
@@ -219,6 +219,11 @@
                     "isSigner": false
                 },
                 {
+                    "name": "sellerAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
                     "name": "store",
                     "isMut": true,
                     "isSigner": false
@@ -318,10 +323,10 @@
                                 {
                                     "array": [
                                         "u8",
-                                        16
+                                        32
                                     ]
                                 },
-                                32
+                                16
                             ]
                         }
                     },
@@ -348,6 +353,10 @@
                     {
                         "name": "diffiePublicKey",
                         "type": "string"
+                    },
+                    {
+                        "name": "articlesCount",
+                        "type": "u16"
                     }
                 ]
             }
@@ -488,12 +497,12 @@
         {
             "code": 6007,
             "name": "InvalidCountry",
-            "msg": "The country should be between 0 and 31"
+            "msg": "The country should be between 0 and 15"
         },
         {
             "code": 6008,
             "name": "InvalidCategory",
-            "msg": "The category should be between 0 and 15"
+            "msg": "The category should be between 0 and 31"
         },
         {
             "code": 6009,
@@ -554,9 +563,19 @@
             "code": 6020,
             "name": "InvalidReviewer",
             "msg": "The user is not allowed to review"
+        },
+        {
+            "code": 6021,
+            "name": "TooMuchArticles",
+            "msg": "The maximum of 1000 articles per seller account is reached"
+        },
+        {
+            "code": 6022,
+            "name": "ShouldRemoveArticlesBeforeDeletingSellerAccount",
+            "msg": "The seller account should remove all his articles before deleting his account"
         }
     ],
     "metadata": {
-        "address": "Gu6yY2zwiWA2ZFfpygo7idVHCFCFQXGstmckwcn3BAys"
+        "address": "EdX9rzCQqSPGDb5RQxaVRKcDkKqUUiwvA6Tgr6vBdJKG"
     }
 }

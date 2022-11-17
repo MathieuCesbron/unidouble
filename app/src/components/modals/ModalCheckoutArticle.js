@@ -51,7 +51,7 @@ export default function ModalCheckoutArticle(props) {
             const filters = {
                 filters: [
                     {
-                        dataSize: 140
+                        dataSize: 142
                     },
                     {
                         memcmp: {
